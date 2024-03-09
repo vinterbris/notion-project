@@ -3,10 +3,10 @@ import os
 import pytest
 from dotenv import load_dotenv
 from selene import browser, have, be
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from notion_tests.utils import attach
+from tests.test_research import app
 
 
 def pytest_addoption(parser):
@@ -25,15 +25,6 @@ def load_env(request):
     print(context)
 
 
-# @pytest.fixture(scope="function", autouse=True)
-# def attachments():
-#     yield
-#     attach.add_screenshot(browser)
-#     attach.add_logs(browser)
-#     attach.add_html(browser)
-#     attach.add_video(browser, os.getenv('SELENOID_URL'))
-
-
 @pytest.fixture(scope="function", autouse=True)
 def browser_management(request):
     context = request.config.getoption("--context")
@@ -47,21 +38,21 @@ def browser_management(request):
     options = Options()
     options.page_load_strategy = 'eager'
     browser.config.driver_options = options
-    selenoid_capabilities = {
-        "browserName": "chrome",
-        "browserVersion": "122.0",
-        "selenoid:options": {"enableVNC": True, "enableVideo": True},
-    }
-    options.capabilities.update(selenoid_capabilities)
-
-    login = os.getenv("SELENOID_LOGIN")
-    password = os.getenv("SELENOID_PASSWORD")
-    driver = webdriver.Remote(
-        command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
-        options=options,
-    )
-
-    browser.config.driver = driver
+    # selenoid_capabilities = {
+    #     "browserName": "chrome",
+    #     "browserVersion": "122.0",
+    #     "selenoid:options": {"enableVNC": True, "enableVideo": True},
+    # }
+    # options.capabilities.update(selenoid_capabilities)
+    #
+    # login = os.getenv("SELENOID_LOGIN")
+    # password = os.getenv("SELENOID_PASSWORD")
+    # driver = webdriver.Remote(
+    #     command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
+    #     options=options,
+    # )
+    #
+    # browser.config.driver = driver
 
     attach.add_screenshot(browser)
     attach.add_logs(browser)
@@ -75,23 +66,19 @@ def browser_management(request):
 @pytest.fixture(scope='function')
 def delete_current_page():
     yield
-    browser.all('[role="treeitem"]')[-1].click()
-    browser.element('.notion-topbar-more-button').click()
-    browser.all('[role="menuitem"]').element_by(have.text('Delete')).click()
-    browser.all('.notion-outliner-private .notion-selectable').wait_until(have.size(1))
+    app.main_page.choose_last_page()
+    app.main_page.open_page_options_panel()
+    app.main_page.choose_delete()
 
 
 @pytest.fixture(scope='function')
 def unfavorite_and_delete_current_page():
     yield
-    browser.all('[role="treeitem"]')[-1].click()
-    browser.element('.notion-topbar-more-button').click()
-    browser.all('[role="menuitem"]').element_by(have.text('Delete')).click()
-    browser.all('.notion-outliner-private .notion-selectable').wait_until(have.size(1))
+    app.main_page.choose_last_page()
+    app.main_page.open_page_options_panel()
+    app.main_page.choose_delete()
     try:
-        browser.element('.topbarStarFilled').click()
-        browser.element('.notion-outliner-bookmarks-header-container').matching(be.absent)
-        browser.element('.notion-outliner-bookmarks').matching(be.absent)
+        app.main_page.unfavorite_page()
     except:
         pass
 
@@ -99,6 +86,4 @@ def unfavorite_and_delete_current_page():
 @pytest.fixture(scope='function')
 def unpublish_page():
     yield
-    browser.all('[role="button"]').element_by(have.text('Unpublish')).click()
-    browser.element('.notion-share-menu-publish-button').matching(be.present)
-    browser.element('.notion-share-menu-publish-button').press_escape()
+    app.main_page.unpublish_page()

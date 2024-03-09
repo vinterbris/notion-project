@@ -1,5 +1,3 @@
-from selene import browser
-
 from notion_tests.models.application import app
 
 
@@ -58,6 +56,15 @@ def test_publish_page(unpublish_page):
 
     # THEN
     app.check_published_page_availability(published_url)
+
+
+def test_create_teamspace(delete_teamspace):
+    app.starting_page.open()
+    app.login_if_not_logged_in()
+
+    # WHEN
+    # TODO создать и удалить тимспейс
+    # THEN
 
 
 def test_create_from_template(delete_current_page):

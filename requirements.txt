@@ -1,0 +1,13 @@
+pytest==8.0.2
+allure-pytest==2.13.2
+selene>=2.0.0rc8
+python-dotenv==1.0.1
+pydantic==2.6.2
+pydantic-settings==2.2.1
+Appium-Python-Client~=3.2.1
+requests~=2.31.0
+mailslurp-client~=15.18.5
+jsonschema==4.21.1
+curlify==2.2.1
+notion-client==2.2.1
+pyperclip==1.8.2

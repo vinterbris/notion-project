@@ -3,8 +3,8 @@ import os
 import pydantic_settings
 from dotenv import load_dotenv
 
-from notion_tests.utils import file
 load_dotenv()
+
 
 class Config(pydantic_settings.BaseSettings):
     timeout: float = 19.0

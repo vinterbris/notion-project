@@ -7,9 +7,8 @@ from config import config
 
 notion = Client(auth=config.notion_api_key)
 
-def test_notion():
-    from pprint import pprint
 
+def test_notion():
     # list_users_response = notion.users.list()
     # pprint(list_users_response)
 

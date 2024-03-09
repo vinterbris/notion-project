@@ -2,11 +2,11 @@ import os
 
 import pytest
 from dotenv import load_dotenv
-from selene import browser, have, be
+from selene import browser
 from selenium.webdriver.chrome.options import Options
 
+from notion_tests.models.application import app
 from notion_tests.utils import attach
-from tests.test_research import app
 
 
 def pytest_addoption(parser):
@@ -54,11 +54,11 @@ def browser_management(request):
     #
     # browser.config.driver = driver
 
+    yield
     attach.add_screenshot(browser)
     attach.add_logs(browser)
     attach.add_html(browser)
     attach.add_video(browser, os.getenv('SELENOID_URL'))
-    yield
 
     browser.quit()
 
@@ -66,19 +66,19 @@ def browser_management(request):
 @pytest.fixture(scope='function')
 def delete_current_page():
     yield
-    app.main_page.choose_last_page()
-    app.main_page.open_page_options_panel()
-    app.main_page.choose_delete()
+    app.main_page.sidebar.choose_last_page()
+    app.main_page.topbar.open_page_options_panel()
+    app.main_page.page_options.choose_delete()
 
 
 @pytest.fixture(scope='function')
 def unfavorite_and_delete_current_page():
     yield
-    app.main_page.choose_last_page()
-    app.main_page.open_page_options_panel()
-    app.main_page.choose_delete()
+    app.main_page.sidebar.choose_last_page()
+    app.main_page.topbar.open_page_options_panel()
+    app.main_page.page_options.choose_delete()
     try:
-        app.main_page.unfavorite_page()
+        app.main_page.topbar.unfavorite_page()
     except:
         pass
 
@@ -86,4 +86,4 @@ def unfavorite_and_delete_current_page():
 @pytest.fixture(scope='function')
 def unpublish_page():
     yield
-    app.main_page.unpublish_page()
+    app.main_page.share_menu.unpublish_page()

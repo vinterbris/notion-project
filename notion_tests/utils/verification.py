@@ -15,9 +15,11 @@ def get_code_from_email():
         print(email.subject)
         if email.subject == 'A new device logged into your account':
             email = get_email(waitfor_controller)
+            print(email.subject)
         pattern = re.compile(r"Your temporary Notion login code is ([A-Za-z0-9]+(-[A-Za-z0-9]+)+)")
         matches = pattern.match(email.subject)
         code = matches.group(1)
+
 
     return code
 

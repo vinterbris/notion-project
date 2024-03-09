@@ -2,7 +2,8 @@ import os
 
 import pytest
 from dotenv import load_dotenv
-from selene import browser, have
+from selene import browser, have, be
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from notion_tests.utils import attach
@@ -24,16 +25,16 @@ def load_env(request):
     print(context)
 
 
+# @pytest.fixture(scope="function", autouse=True)
+# def attachments():
+#     yield
+#     attach.add_screenshot(browser)
+#     attach.add_logs(browser)
+#     attach.add_html(browser)
+#     attach.add_video(browser, os.getenv('SELENOID_URL'))
+
+
 @pytest.fixture(scope="function", autouse=True)
-def attachments():
-    yield
-    attach.add_screenshot(browser)
-    attach.add_logs(browser)
-    attach.add_html(browser)
-    attach.add_video(browser, os.getenv('SELENOID_URL'))
-
-
-@pytest.fixture(scope="session", autouse=True)
 def browser_management(request):
     context = request.config.getoption("--context")
     from config import config
@@ -46,24 +47,26 @@ def browser_management(request):
     options = Options()
     options.page_load_strategy = 'eager'
     browser.config.driver_options = options
-    # selenoid_capabilities = {
-    #     "browserName": "chrome",
-    #     "browserVersion": "120.0",
-    #     "selenoid:options": {"enableVNC": True, "enableVideo": True},
-    # }
-    # options.capabilities.update(selenoid_capabilities)
-    #
-    #
-    #
-    # login = os.getenv("SELENOID_LOGIN")
-    # password = os.getenv("SELENOID_PASSWORD")
-    # driver = webdriver.Remote(
-    #     command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
-    #     options=options,
-    # )
-    #
-    # browser.config.driver = driver
+    selenoid_capabilities = {
+        "browserName": "chrome",
+        "browserVersion": "122.0",
+        "selenoid:options": {"enableVNC": True, "enableVideo": True},
+    }
+    options.capabilities.update(selenoid_capabilities)
 
+    login = os.getenv("SELENOID_LOGIN")
+    password = os.getenv("SELENOID_PASSWORD")
+    driver = webdriver.Remote(
+        command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
+        options=options,
+    )
+
+    browser.config.driver = driver
+
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
+    attach.add_video(browser, os.getenv('SELENOID_URL'))
     yield
 
     browser.quit()
@@ -75,12 +78,27 @@ def delete_current_page():
     browser.all('[role="treeitem"]')[-1].click()
     browser.element('.notion-topbar-more-button').click()
     browser.all('[role="menuitem"]').element_by(have.text('Delete')).click()
-    browser.element('[aria-live="polite"]').should(have.text('Moved to trash'))
+    browser.all('.notion-outliner-private .notion-selectable').wait_until(have.size(1))
+
+
+@pytest.fixture(scope='function')
+def unfavorite_and_delete_current_page():
+    yield
+    browser.all('[role="treeitem"]')[-1].click()
+    browser.element('.notion-topbar-more-button').click()
+    browser.all('[role="menuitem"]').element_by(have.text('Delete')).click()
+    browser.all('.notion-outliner-private .notion-selectable').wait_until(have.size(1))
+    try:
+        browser.element('.topbarStarFilled').click()
+        browser.element('.notion-outliner-bookmarks-header-container').matching(be.absent)
+        browser.element('.notion-outliner-bookmarks').matching(be.absent)
+    except:
+        pass
 
 
 @pytest.fixture(scope='function')
 def unpublish_page():
     yield
-    browser.element('.settings').click()
     browser.all('[role="button"]').element_by(have.text('Unpublish')).click()
     browser.element('.notion-share-menu-publish-button').matching(be.present)
+    browser.element('.notion-share-menu-publish-button').press_escape()

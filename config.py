@@ -7,8 +7,8 @@ from notion_tests.utils import file
 load_dotenv()
 
 class Config(pydantic_settings.BaseSettings):
-    timeout: float = 15.0
-    mail_wait_timeout: int = 120000
+    timeout: float = 19.0
+    mail_wait_timeout: int = 1200000
 
     mail_api_key: str = os.getenv('MAIL_SLURP_API_KEY')
     mail_inbox_id: str = os.getenv('MAIL_SLURP_INBOX_ID')

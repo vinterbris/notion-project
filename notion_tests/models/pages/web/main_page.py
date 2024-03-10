@@ -5,6 +5,7 @@ from selene import browser, have, be
 class MainPage:
 
     def __init__(self):
+        self.subpage_name = browser.element('.notion-overlay-container [placeholder="Untitled"]')
         self.button_open_as_full_page = browser.element('.openAsPageThick')
         self.more = browser.element('.notion-page-content .dots')
         self.collection_table = browser.element('.collectionTable')
@@ -20,11 +21,14 @@ class MainPage:
         self.sidebar = self.SideBar()
         self.topbar = self.TopBar()
         self.share_menu = self.ShareMenu()
-        self.page_options = self.PageOptionsMenu(self)
+        self.page_options = self.PageOptionsMenu(self.sidebar)
         self.table = self.Table()
 
     def enter_page_name(self, name):
         self.page_name.click().type(name)
+
+    def enter_subpage_name(self, name):
+        self.subpage_name.click().type(name)
 
     def open_in_full_page(self):
         self.button_open_as_full_page.click()
@@ -37,6 +41,7 @@ class MainPage:
         self.conver.matching(be.present)
         self.comments.matching(be.present)
 
+    # TODO refactor
     def should_have_additional_top_ui_elements(self):
         self.button_open_as_full_page.matching(be.present)
         browser.element('.peekModeCenter').matching(be.present)
@@ -121,7 +126,7 @@ class MainPage:
     class SideBar:
         def __init__(self):
             self.bookmarks = browser.element('.notion-outliner-bookmarks')
-            self.page_name = browser.all('.notranslate')
+            self.collection_of_pages = browser.all('.notranslate')
             self.button_templates = browser.element('.sidebarTemplates')
             self.button_add_page = browser.all('[role="button"]').element_by(have.text('Add a page'))
             self.last_page = browser.all('[role="treeitem"]')[-1]
@@ -156,7 +161,7 @@ class MainPage:
             browser.element('.trash').matching(be.present)
 
         def should_have_title(self, value):
-            self.page_name.matching(be.present).element_by(have.text(value))
+            self.collection_of_pages.element_by(have.text(value)).matching(be.present)
 
         def favorites_should_have_page_with_name(self, value):
             self.bookmarks.should(have.text(value))
@@ -191,13 +196,13 @@ class MainPage:
             self.button_publish.press_escape()
 
     class PageOptionsMenu:
-        def __init__(self, main_page):
-            self.main_page = main_page
+        def __init__(self, sidebar):
+            self.sidebar = sidebar
             self.menu_delete = browser.all('[role="menuitem"]').element_by(have.text('Delete'))
 
         def choose_delete(self):
             self.menu_delete.click()
-            self.main_page.list_of_pages.wait_until(have.size(1))
+            self.sidebar.list_of_pages.wait_until(have.size(1))
 
     class TemplatesWindow:
         def __init__(self):

@@ -27,13 +27,13 @@ def test_create_page(delete_current_page):
     app.main_page.should_have_bottom_ui_elements()
 
 
-def test_create_subpage(delete_current_page):
+def test_create_subpage():
     app.starting_page.open()
     app.login_if_not_logged_in()
 
     # WHEN
     app.main_page.sidebar.add_subpage()
-    app.main_page.enter_page_name('Subpage')
+    app.main_page.enter_subpage_name('Subpage')
     app.main_page.open_in_full_page()
 
     # THEN

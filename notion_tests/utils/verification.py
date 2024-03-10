@@ -3,10 +3,10 @@ import re
 import mailslurp_client
 import time
 
-from config import config
+from config import mail_config
 
 configuration = mailslurp_client.Configuration()
-configuration.api_key['x-api-key'] = config.mail_api_key
+configuration.api_key['x-api-key'] = mail_config.mail_api_key
 
 
 def get_code_from_email():
@@ -32,8 +32,8 @@ def get_email_subject(waitfor_controller):
 
 def get_email(waitfor_controller):
     email = waitfor_controller.wait_for_latest_email(
-        inbox_id=config.mail_inbox_id,
-        timeout=config.mail_wait_timeout,
+        inbox_id=mail_config.mail_inbox_id,
+        timeout=mail_config.mail_wait_timeout,
         unread_only=True
     )
     return email

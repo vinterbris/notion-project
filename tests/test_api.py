@@ -3,9 +3,9 @@ import os
 import requests
 from notion_client import Client
 
-from config import config
+from config import web_config
 
-notion = Client(auth=config.notion_api_key)
+notion = Client(auth=web_config.notion_api_key)
 
 
 def test_notion():

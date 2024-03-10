@@ -1,3 +1,5 @@
+import time
+
 import pyperclip
 from selene import browser, have, be
 
@@ -5,6 +7,9 @@ from selene import browser, have, be
 class MainPage:
 
     def __init__(self):
+        self.button_choose_default_page_getting_started = browser.all('[role="button"] .notranslate').element_by(
+            have.text('Getting Started'))
+        self.button_choose_peek_mode = browser.element('.peekModeCenter')
         self.subpage_name = browser.element('.notion-overlay-container [placeholder="Untitled"]')
         self.button_open_as_full_page = browser.element('.openAsPageThick')
         self.more = browser.element('.notion-page-content .dots')
@@ -34,25 +39,24 @@ class MainPage:
         self.button_open_as_full_page.click()
 
     def should_have_title_field(self):
-        self.page_name.matching(be.present)
+        self.page_name.should(be.present)
 
     def should_have_top_ui_elements(self):
-        self.icon.matching(be.present)
-        self.conver.matching(be.present)
-        self.comments.matching(be.present)
+        self.icon.should(be.present)
+        self.conver.should(be.present)
+        self.comments.should(be.present)
 
-    # TODO refactor
     def should_have_additional_top_ui_elements(self):
-        self.button_open_as_full_page.matching(be.present)
-        browser.element('.peekModeCenter').matching(be.present)
-        browser.all('[role="button"] .notranslate').element_by(have.text('Getting Started')).matching(be.present)
+        self.button_open_as_full_page.should(be.present)
+        self.button_choose_peek_mode.should(be.present)
+        self.button_choose_default_page_getting_started.should(be.present)
 
     def should_have_bottom_ui_elements(self):
-        self.ai.matching(be.present)
-        self.import_data.matching(be.present)
-        self.templates.matching(be.present)
-        self.collection_table.matching(be.present)
-        self.more.matching(be.present)
+        self.ai.should(be.present)
+        self.import_data.should(be.present)
+        self.templates.should(be.present)
+        self.collection_table.should(be.present)
+        self.more.should(be.present)
 
     class Table:
 
@@ -63,7 +67,6 @@ class MainPage:
             self.edit_layout = browser.element('.notion-collection-edit-view')
             self.search = browser.element('.collectionSearch')
             self.automations = browser.element('.notion-collection-automation-edit-view')
-            self.button_count = browser.all('[role="button"]').element_by(have.text('Count'))
             self.button_sort = browser.all('[role="button"]').element_by(have.text('Sort'))
             self.button_filter = browser.all('[role="button"]').element_by(have.text('Filter'))
             self.buttons_all_new = browser.all('.plus')
@@ -71,7 +74,7 @@ class MainPage:
             self.table_view = browser.element('.notion-table-view')
 
         def should_have_table_view(self):
-            self.table_view.matching(be.present)
+            self.table_view.should(be.present)
 
         def should_have_tabs(self, tab1, tab2):
             self.tabs.should(have.texts(tab1, tab2))
@@ -80,17 +83,16 @@ class MainPage:
             self.buttons_all_new.should(have.size(value))
 
         def should_have_buttons(self):
-            self.button_filter.matching(be.present)
-            self.button_sort.matching(be.present)
-            self.button_count.matching(be.present)
+            self.button_filter.should(be.present)
+            self.button_sort.should(be.present)
 
         def should_have_ui_elements(self):
-            self.automations.matching(be.present)
-            self.search.matching(be.present)
-            self.edit_layout.matching(be.present)
-            self.button_add_new_item.matching(be.present)
-            self.button_add_row.matching(be.present)
-            self.button_counter.matching(be.present)
+            self.automations.should(be.present)
+            self.search.should(be.present)
+            self.edit_layout.should(be.present)
+            self.button_add_new_item.should(be.present)
+            self.button_add_row.should(be.present)
+            self.button_counter.should(be.present)
 
     class TopBar:
 
@@ -110,21 +112,47 @@ class MainPage:
 
         def unfavorite_page(self):
             self.indicator_added_to_favorite.click()
-            self.favorites_header.matching(be.absent)
-            self.favorites_block.matching(be.absent)
+            self.favorites_header.should(be.absent)
+            self.favorites_block.should(be.absent)
 
         def open_page_options_panel(self):
             self.button_page_options.click()
 
         def should_have_topbar_ui_elements(self):
-            self.share_menu.matching(be.present)
-            self.button_comments.matching(be.present)
-            self.button_updates.matching(be.present)
-            self.button_favorites.matching(be.present)
-            self.button_page_options.matching(be.present)
+            self.share_menu.should(be.present)
+            self.button_comments.should(be.present)
+            self.button_updates.should(be.present)
+            self.button_favorites.should(be.present)
+            self.button_page_options.should(be.present)
 
     class SideBar:
         def __init__(self):
+            self.button_archive_without_moving_pages = browser.all('[role="button"]').element_by(
+                have.text('Proceed without moving pages'))
+            self.button_archive_teamspace = browser.all('[role="button"]').element_by(have.text('Archive teamspace'))
+            self.menu_archive_teamspace = browser.all('[role="menuitem"]').element_by(have.text('Archive teamspace'))
+            self.teamspace_home = browser.all('.notion-outliner-team').element_by(have.text('Teamspace Home'))
+            self.list_of_teamspace_pages = browser.all('.notion-outliner-team')
+            self.teamspace_page = browser.element('.notion-outliner-team')
+            self.button_teamspace_page_plus = browser.element('.notion-outliner-team-header-container .plusThick')
+            self.list_of_buttons = browser.all('[role="button"]')
+            self.teamspace_header_container = browser.element('.notion-outliner-team-header-container')
+            self.button_trash = browser.element('.trash')
+            self.button_import = browser.element('.sidebarImport')
+            self.button_calendar = browser.all('[role="button"]').element_by(have.text('Calendar'))
+            self.block_of_private_pages = browser.element('.notion-outliner-private')
+            self.button_new_page = browser.element('.circlePlus')
+            self.settings = browser.element('.sidebarSettings')
+            self.inbox = browser.element('.sidebarInbox')
+            self.search = browser.element('.sidebarSearch')
+            self.button_close_sidebar = browser.element('.notion-close-sidebar')
+            self.sidebar_switcher = browser.element('.notion-sidebar-switcher')
+            self.button_skip_people_invite = browser.all('[role="button"]').element_by(have.text('Skip for now'))
+            self.button_submit_teamspace = browser.all('[role="button"]').element_by(have.text('Create teamspace'))
+            self.teamspace_name = browser.element('[placeholder="Acme Labs"]')
+            self.button_create_teamspace = browser.all('[role="button"]').element_by(have.text('Create a teamspace'))
+            self.page_button_plus = browser.element('.notion-outliner-private .notion-page-block .plusThick')
+            self.page = browser.element('.notion-outliner-private .notion-page-block')
             self.bookmarks = browser.element('.notion-outliner-bookmarks')
             self.collection_of_pages = browser.all('.notranslate')
             self.button_templates = browser.element('.sidebarTemplates')
@@ -139,33 +167,61 @@ class MainPage:
             self.button_add_page.click()
 
         def add_subpage(self):
-            browser.element('.notion-outliner-private .notion-page-block').hover()
-            browser.element('.notion-outliner-private .notion-page-block .plusThick').click()
+            self.page.hover()
+            self.page_button_plus.click()
 
         def choose_last_page(self):
             self.last_page.click()
 
-        def should_have_sidebar_ui_elements(self):
-            browser.element('.notion-sidebar-switcher').should(have.text("Sergey's Notion"))
-            browser.element('.notion-close-sidebar').matching(be.present)
-            browser.element('.sidebarSearch').matching(be.present)
-            browser.element('.sidebarInbox').matching(be.present)
-            browser.element('.sidebarSettings').matching(be.present)
-            browser.element('.circlePlus').matching(be.present)
-            browser.element('.notion-outliner-private').matching(be.present)
-            browser.element('.plusThick').matching(be.present)
-            browser.element('.calendarDate09').matching(be.present)
-            browser.element('.typesRelation').matching(be.present)
-            browser.element('.sidebarInviteTeam').matching(be.present)
-            browser.element('.sidebarImport').matching(be.present)
-            browser.element('.trash').matching(be.present)
+        def create_teamspace(self):
+            self.button_create_teamspace.click()
+
+        def name_teamspace(self, workspace_name):
+            self.teamspace_name.type(workspace_name)
+
+        def submit_teamspace(self):
+            self.button_submit_teamspace.click()
+
+        def skip_people_invite(self):
+            self.button_skip_people_invite.click()
+
+        def should_have_sidebar_ui_elements(self, value):
+            self.sidebar_switcher.should(have.text(value))
+            self.button_close_sidebar.should(be.present)
+            self.search.should(be.present)
+            self.inbox.should(be.present)
+            self.settings.should(be.present)
+            self.button_new_page.should(be.present)
+            self.block_of_private_pages.should(be.present)
+            self.button_add_page.should(be.present)
+            self.button_calendar.should(be.present)
+            self.button_create_teamspace.should(be.present)
+            self.button_import.should(be.present)
+            self.button_trash.should(be.present)
+
+        def should_have_teamspace_ui_elemnts(self, workspace_name):
+            self.teamspace_header_container.should(be.present)
+            self.list_of_buttons.element_by(have.text(workspace_name)).should(be.present)
+            self.button_teamspace_page_plus.should(be.present)
+            self.teamspace_page.should(be.present)
+            self.list_of_teamspace_pages.element_by(have.text(workspace_name)).should(be.present)
+            self.teamspace_home.should(be.present)
 
         def should_have_title(self, value):
-            self.collection_of_pages.element_by(have.text(value)).matching(be.present)
+            self.collection_of_pages.element_by(have.text(value)).should(be.present)
 
         def favorites_should_have_page_with_name(self, value):
             self.bookmarks.should(have.text(value))
-            
+
+        def archive_teamspace(self, workspace_name):
+            self.list_of_teamspace_pages.element_by(have.text(workspace_name)).hover()
+            self.list_of_teamspace_pages.element_by(have.text(workspace_name)).element('.dots').click()
+            self.menu_archive_teamspace.click()
+            browser.element(f'[placeholder="{workspace_name}"]').type(workspace_name)
+            self.button_archive_teamspace.click()
+            self.button_archive_without_moving_pages.click()
+            self.teamspace_header_container.should(be.absent)
+
     class ShareMenu:
 
         def __init__(self):
@@ -192,7 +248,7 @@ class MainPage:
 
         def unpublish_page(self):
             self.button_unpublish.click()
-            self.button_publish.matching(be.present)
+            self.button_publish.should(be.present)
             self.button_publish.press_escape()
 
     class PageOptionsMenu:
@@ -203,6 +259,7 @@ class MainPage:
         def choose_delete(self):
             self.menu_delete.click()
             self.sidebar.list_of_pages.wait_until(have.size(1))
+            time.sleep(2)
 
     class TemplatesWindow:
         def __init__(self):

@@ -60,7 +60,7 @@ class WebConfig(pydantic_settings.BaseSettings):
 
 
 class MobileConfig(pydantic_settings.BaseSettings):
-    timeout: float = 10.0
+    timeout: float = 20.0
     app: str = os.getenv('APP')
     platform_name: str = os.getenv('PLATFORM_NAME')
     platform_version: str = os.getenv('PLATFORM_VERSION')

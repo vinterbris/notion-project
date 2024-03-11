@@ -117,6 +117,15 @@ class MobileMainPage:
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Reading List')).should(
             be.present)
 
+    def search(self, page):
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).click()
+        browser.element((AppiumBy.XPATH, '//android.widget.EditText')).send_keys(page)
+
+    def should_have_page(self, name):
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).should(
+            be.present)
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).click()
+
 
 mobile_login_page = MobileLoginPage()
 mobile_main_page = MobileMainPage()
@@ -150,13 +159,10 @@ def test_search_page():
     mobile_login_page.mobile_login(google)
 
     # WHEN
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).click()
-    browser.element((AppiumBy.XPATH, '//android.widget.EditText')).send_keys('Getting Started')
+    mobile_main_page.search('Getting Started')
 
     # THEN
-    browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Getting Started')).should(
-        be.present)
-    browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Getting Started')).click()
+    mobile_main_page.should_have_page('Getting Started')
 
 
 def test_delete_page():

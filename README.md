@@ -38,9 +38,9 @@
 > <a target="_blank" href="https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/">Ссылка на проект в Jenkins</a>
 #### Для запуска автотестов в Jenkins
 
-1. Выбрать пункт `Build now`
-   2. Запуск веб тестов на селеноид: `tests/web --context=selenoid`
-   3. Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`
+1. Выбрать пункт `Build now`  
+   * Запуск веб тестов на селеноид: `tests/web --context=selenoid`  
+   * Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`  
 2. Результат запуска сборки можно посмотреть в отчёте Allure
 
 

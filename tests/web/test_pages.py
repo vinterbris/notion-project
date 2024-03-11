@@ -1,15 +1,21 @@
+from allure_commons._allure import step
+
 from notion_tests.models.application import app
 from notion_tests.test_data.data import workspace_name, subpage_name, page_name
 
 
 def test_create_page(delete_current_page):
-    app.starting_page.open()
-    app.login_if_not_logged_in()
+    with step('Открыть сайт'):
+        app.starting_page.open()
+    with step('Логин'):
+        app.login_if_not_logged_in()
 
     # WHEN
-    app.main_page.sidebar.add_page()
+    with step('Добавить страницу'):
+        app.main_page.sidebar.add_page()
 
     # THEN
+    with step('Должны быть поля и элементы интерфейса'):
     app.main_page.should_have_title_field()
     app.main_page.should_have_top_ui_elements()
     app.main_page.should_have_bottom_ui_elements()

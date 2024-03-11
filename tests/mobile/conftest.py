@@ -1,3 +1,5 @@
+import os
+
 import allure
 import allure_commons
 import pytest
@@ -22,13 +24,17 @@ def mobile_management(request):
     context = request.config.getoption("--context")
 
     load_dotenv('.env')
-    load_dotenv(dotenv_path=f'.env.{context}')
     from config import mobile_config
+
+    if context == 'bstack':
+        remote_url = mobile_config.rem_url
+    else:
+        remote_url = os.getenv('REMOTEURLLOCAL')
 
     options = mobile_config.to_driver_options(context)
     with allure.step('init app session'):
         browser.config.driver = webdriver.Remote(
-            mobile_config.remote_url,
+            remote_url,
             options=options
         )
     browser.config.timeout = mobile_config.timeout

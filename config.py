@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 from notion_tests.utils import file
 
-load_dotenv()
+load_dotenv('.env')
 
 
 class MailConfig(pydantic_settings.BaseSettings):
@@ -45,27 +45,29 @@ class WebConfig(pydantic_settings.BaseSettings):
 
 class MobileConfig(pydantic_settings.BaseSettings):
     timeout: float = 15.0
-    app: str = os.getenv('APP')
-    platform_name: str = os.getenv('BSTACK_PLATFORM_NAME')
-    platform_version: str = os.getenv('BSTACK_PLATFORM_VERSION')
-    remote_url: str = os.getenv('BSTACK_REMOTE_URL')
-    device_name: str = os.getenv('BSTACK_DEVICE_NAME')
+    use_google_account_locally: bool = os.getenv('USE_GOOGLE')
 
-    local_app: str = os.getenv('APP')
-    local_platform_name: str = os.getenv('PLATFORM_NAME')
-    local_remote_url: str = os.getenv('REMOTE_URL')
-    local_device_name: str = os.getenv('DEVICE_NAME')
+    application: str = os.getenv('APPB')
+    platform: str = os.getenv('PLATFORMNAMEB')
+    platform_ver: str = os.getenv('PLATFORMVERB')
+    rem_url: str = os.getenv('RURL')
+    dev_name: str = os.getenv('DEVICENAMEB')
+
+
+    # local_app: str = os.getenv('APP')
+    # local_platform_name: str = os.getenv('PLATFORM_NAME')
+    # local_remote_url: str = os.getenv('REMOTE_URL')
 
     def to_driver_options(self, context):
         from appium.options.android import UiAutomator2Options
         options = UiAutomator2Options()
 
         if context == 'bstack':
-            options.set_capability('remote_url', self.remote_url)
-            options.set_capability('deviceName', self.device_name)
-            options.set_capability('platformName', self.platform_name)
-            options.set_capability('platformVersion', self.platform_version)
-            options.set_capability('app', self.app)
+            options.set_capability('remote_url', self.rem_url)
+            options.set_capability('deviceName', self.dev_name)
+            options.set_capability('platformName', self.platform)
+            options.set_capability('platformVersion', self.platform_ver)
+            options.set_capability('app', self.application)
             options.set_capability(
                 'bstack:options', {
                     'projectName': 'First Python project',
@@ -76,9 +78,9 @@ class MobileConfig(pydantic_settings.BaseSettings):
                 },
             )
         elif context == 'local_mobile':
-            options.set_capability('platformName', self.local_platform_name)
-            options.set_capability('remote_url', self.local_remote_url)
-            options.set_capability('app', file.abs_path_from_project(self.local_app))
+            options.set_capability('platformName', os.getenv('PLATFORM_NAMELOCAL'))
+            options.set_capability('remote_url', os.getenv('REMOTEURLLOCAL'))
+            options.set_capability('app', file.abs_path_from_project(os.getenv('APPLOCAL')))
 
         return options
 

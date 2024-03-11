@@ -4,7 +4,6 @@ import pytest
 from dotenv import load_dotenv
 from selene import browser
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 from notion_tests.models.application import app
 from notion_tests.test_data.data import workspace_name
@@ -19,18 +18,10 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture(scope='session', autouse=True)
-def load_env(request, pytestconfig):
-    context = pytestconfig.getoption("--context")
-    load_dotenv()
-    load_dotenv(dotenv_path=f'.env.{context}')
-    print(context)
-
-
 @pytest.fixture(scope="function", autouse=True)
 def browser_management(request):
     context = request.config.getoption("--context")
-    # context = 'selenoid'
+    load_dotenv()
     from config import web_config
 
     browser.config.base_url = web_config.base_url
@@ -40,15 +31,6 @@ def browser_management(request):
 
     options = web_config.to_driver_options(context)
 
-    # options = Options()
-    # options.page_load_strategy = 'eager'
-    #
-    # selenoid_capabilities = {
-    #     "browserName": "chrome",
-    #     "browserVersion": "122.0",
-    #     "selenoid:options": {"enableVNC": True, "enableVideo": True},
-    # }
-    # options.capabilities.update(selenoid_capabilities)
     if context == 'selenoid':
         login = os.getenv("SELENOID_LOGIN")
         password = os.getenv("SELENOID_PASSWORD")

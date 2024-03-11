@@ -1,5 +1,6 @@
-import requests
 import time
+
+import requests
 from selene import be
 
 from notion_tests.models.pages.mobile.login_page import MobileLoginPage

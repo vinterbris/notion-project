@@ -1,5 +1,6 @@
-import pyperclip
 import time
+
+import pyperclip
 from selene import browser, have, be
 
 

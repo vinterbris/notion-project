@@ -53,7 +53,6 @@ class MobileConfig(pydantic_settings.BaseSettings):
     rem_url: str = os.getenv('RURL')
     dev_name: str = os.getenv('DEVICENAMEB')
 
-
     # local_app: str = os.getenv('APP')
     # local_platform_name: str = os.getenv('PLATFORM_NAME')
     # local_remote_url: str = os.getenv('REMOTE_URL')

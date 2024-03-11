@@ -1,7 +1,7 @@
 import re
+import time
 
 import mailslurp_client
-import time
 
 from config import mail_config
 

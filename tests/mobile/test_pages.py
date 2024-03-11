@@ -19,7 +19,7 @@ def test_create_page(delete_created_page):
         app.mobile_main_page.choose_template(template_name)
 
     # THEN
-    with step('Шоблон должен быть добавлен'):
+    with step('Шаблон должен быть добавлен'):
         app.mobile_main_page.should_have_reading_list()
 
 
@@ -27,21 +27,28 @@ def test_search_page():
     app.mobile_login_page.mobile_login(google)
 
     # WHEN
-    app.mobile_main_page.search(default_page)
+    with step('Найти страницу'):
+        app.mobile_main_page.search(default_page)
 
     # THEN
-    app.mobile_main_page.should_have_page(default_page)
+    with step('Страница должна отображаться в результате поиска'):
+        app.mobile_main_page.should_have_page(default_page)
 
 
 def test_delete_page():
     app.mobile_login_page.mobile_login(google)
-    app.create_page_from_template(template_name)
+    with step('Создать страницу'):
+        app.create_page_from_template(template_name)
 
     # WHEN
-    app.mobile_main_page.open_home()
-    app.mobile_main_page.open_home()
-    app.mobile_main_page.choose_page_for_deletion()
-    app.mobile_main_page.delete_page_on_page_screen()
+    with step('Открыть домашний экран'):
+        app.mobile_main_page.open_home()
+        app.mobile_main_page.open_home()
+    with step('Выбрать страницу для удаления'):
+        app.mobile_main_page.choose_page_for_deletion()
+    with step('Удалить страницу'):
+        app.mobile_main_page.delete_page_on_page_screen()
 
     # THEN
-    app.mobile_main_page.page_should_be_deleted(template_name)
+    with step('Страница должна быть удалена'):
+        app.mobile_main_page.page_should_be_deleted(template_name)

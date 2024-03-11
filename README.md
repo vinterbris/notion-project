@@ -3,7 +3,6 @@
 <a href="https://notion.so">
   <img src="resources/images/notion.png" width="" height="110">
 </a>
-<figcaption align="center">Notion: Your connected workspace for wiki, docs & projects</figcaption>
 </p>
 
 

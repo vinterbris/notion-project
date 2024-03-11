@@ -1,5 +1,5 @@
 <h1 align="center">Проект web и mobile автотестов<p align="center">
-<a href="link.ru"> <img src="resources/images/notion.png" width="" height="110"> </a> </h1>
+<a href="notion.so"> <img src="resources/images/notion.png" width="" height="110"> </a> </h1>
 
 
 <h3 align="center">Python | Pytest | Selene | Jenkins | Allure | Selenoid | Browserstack | Telegram</h3>
@@ -19,13 +19,19 @@
 ---
 
 ### Реализованы тесты:
-
+#### Web
 - [x] Логин
-- [x] 
-- [x] 
-- [x] 
-- [x] 
-- [x] 
+- [x] Добавление страницы
+- [x] Добавление подстраницы
+- [x] Публикация страницы
+- [x] Создание пространства команды
+- [x] Создание страницы из шаблона
+- [x] Добавление страницы в любимые
+#### Mobile
+- [x] Логин
+- [x] Добавление страницы
+- [x] Поиск страницы
+- [x] Удаление страницы
 
 ## Запуск тестов
 ### Удаленно

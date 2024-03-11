@@ -8,12 +8,20 @@ from notion_tests.utils.verification import get_code_from_email
 
 
 class MobileLoginPage:
+    def __init__(self):
+        self.incorrect_code = browser.all((AppiumBy.XPATH, 'android.widget.TextView')).element_by(
+            have.text('Your login code was incorrect. Please try again.'))
+        self.button_continue = browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue"]'))
+
     def login_with_google(self):
         browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Continue with Google')).click()
 
     def login_with_email(self):
         time.sleep(2)
-        if browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]')).matching(be.present):
+        browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]')).wait_until(
+            be.clickable)
+        if browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]')).matching(
+                be.present):
             browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]')).click()
         else:
             browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="continue with email"]')).click()
@@ -24,11 +32,8 @@ class MobileLoginPage:
             '//android.widget.EditText[@resource-id="notion-email-input-2"]'
         )).type(os.getenv('LOGIN'))
 
-    def button_is_continue(self):
-        return browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="Continue"]')).matching(be.present)
-
     def press_button_continue(self):
-        browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="Continue"]')).click()
+        browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue"]')).click()
 
     def press_button_login_with_email(self):
         browser.all((
@@ -42,10 +47,6 @@ class MobileLoginPage:
     def pressbutton_continue_with_code(self):
         browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(
             have.text('Continue with login code')).click()
-
-    def incorrect_code(self):
-        return browser.all((AppiumBy.XPATH, 'android.widget.TextView')).element_by(
-            have.text('Your login code was incorrect. Please try again.')).matching(be.present)
 
     def reenter_code(self, code):
         browser.all((AppiumBy.CLASS_NAME, 'android.widget.EditText'))[-1].type(code).press_enter()
@@ -66,7 +67,8 @@ class MobileLoginPage:
             self.login_with_email()
             self.enter_email()
 
-            if self.button_is_continue():
+            time.sleep(5)
+            if self.button_continue.matching(be.present):
                 self.press_button_continue()
             else:
                 self.press_button_login_with_email()
@@ -77,7 +79,7 @@ class MobileLoginPage:
             mobile_login_page.enter_password(code)
             mobile_login_page.pressbutton_continue_with_code()
 
-            if mobile_login_page.incorrect_code():
+            if mobile_login_page.incorrect_code.matching(be.present):
                 code = get_code_from_email()
                 mobile_login_page.reenter_code(code)
         self.wait_until_logged_in()

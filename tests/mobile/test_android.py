@@ -12,7 +12,11 @@ class MobileLoginPage:
         browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Continue with Google')).click()
 
     def login_with_email(self):
-        browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text("Continue with email")).click()
+        time.sleep(2)
+        if browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]')).matching(be.present):
+            browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]')).click()
+        else:
+            browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="continue with email"]')).click()
 
     def enter_email(self):
         browser.element((
@@ -21,13 +25,10 @@ class MobileLoginPage:
         )).type(os.getenv('LOGIN'))
 
     def button_is_continue(self):
-        return browser.all((
-            AppiumBy.XPATH,
-            '//android.widget.Button'
-        )).element_by(have.text('Continue')).matching(be.present)
+        return browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="Continue"]')).matching(be.present)
 
     def press_button_continue(self):
-        browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Continue')).click()
+        browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="Continue"]')).click()
 
     def press_button_login_with_email(self):
         browser.all((
@@ -40,7 +41,7 @@ class MobileLoginPage:
 
     def pressbutton_continue_with_code(self):
         browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(
-            have.text('Continue with login codel')).click()
+            have.text('Continue with login code')).click()
 
     def incorrect_code(self):
         return browser.all((AppiumBy.XPATH, 'android.widget.TextView')).element_by(
@@ -48,6 +49,13 @@ class MobileLoginPage:
 
     def reenter_code(self, code):
         browser.all((AppiumBy.CLASS_NAME, 'android.widget.EditText'))[-1].type(code).press_enter()
+
+    def choose_google_user(self):
+        browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name')).click()
+
+    def wait_until_logged_in(self):
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
+            have.text('Logging in to Notion…')).wait_until(be.absent)
 
     def mobile_login(self, google):
         if google:
@@ -74,13 +82,6 @@ class MobileLoginPage:
                 mobile_login_page.reenter_code(code)
         self.wait_until_logged_in()
 
-    def choose_google_user(self):
-        browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name')).click()
-
-    def wait_until_logged_in(self):
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
-            have.text('Logging in to Notion…')).wait_until(be.absent)
-
 
 class MobileMainPage:
     def allow_notifications(self):
@@ -99,7 +100,7 @@ mobile_main_page = MobileMainPage()
 
 
 def test_login():
-    google = True
+    google = False
 
     # WHEN
     mobile_login_page.mobile_login(google)
@@ -107,7 +108,6 @@ def test_login():
 
     # THEN
     mobile_main_page.ui_elements_should_be_present()
-
 
 
 def test_create_page():

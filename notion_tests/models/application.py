@@ -15,7 +15,7 @@ class Application:
         # self.mobile_login_page = MobileLoginPage()
         # self.mobile_main_page = MobileMainPage()
 
-        self.hide_keyboard = browser.driver.execute_script('mobile: hideKeyboard')
+        # self.hide_keyboard = browser.driver.execute_script('mobile: hideKeyboard')
 
     def login(self):
         app.starting_page.open_login_form()

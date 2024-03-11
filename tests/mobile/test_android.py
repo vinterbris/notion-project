@@ -52,6 +52,7 @@ class MobileLoginPage:
     def mobile_login(self, google):
         if google:
             self.login_with_google()
+            browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name')).click()
         else:
             self.login_with_email()
             self.enter_email()
@@ -60,6 +61,20 @@ class MobileLoginPage:
                 self.press_button_continue()
             else:
                 self.press_button_login_with_email()
+            code = get_code_from_email()
+            # app.hide_keyboard()
+            browser.driver.execute_script('mobile: hideKeyboard')
+
+            mobile_login_page.enter_password(code)
+            mobile_login_page.pressbutton_continue_with_code()
+
+            if mobile_login_page.incorrect_code():
+                code = get_code_from_email()
+                mobile_login_page.reenter_code(code)
+
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
+            have.text('Logging in to Notion…')).wait_until(be.absent)
+
 
 
 class MobileMainPage:
@@ -72,31 +87,16 @@ mobile_main_page = MobileMainPage()
 
 def test_login():
     google = True
+
+
+    # WHEN
     mobile_login_page.mobile_login(google)
-
-    code = get_code_from_email()
-    # app.hide_keyboard()
-    browser.driver.execute_script('mobile: hideKeyboard')
-
-    mobile_login_page.enter_password(code)
-    mobile_login_page.pressbutton_continue_with_code()
-
-    if mobile_login_page.incorrect_code():
-        code = get_code_from_email()
-        mobile_login_page.reenter_code(code)
-
-
-# WHEN
-browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name')).click()
-browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
-    have.text('Logging in to Notion…')).wait_until(be.absent)
-browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
-
-# THEN
-browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).should(be.present)
-browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).should(be.present)
-browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]')).should(be.present)
-browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).should(be.present)
+    browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
+    # THEN
+    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).should(be.present)
+    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).should(be.present)
+    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]')).should(be.present)
+    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).should(be.present)
 
 
 def test_create_page():

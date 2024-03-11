@@ -98,6 +98,12 @@ appium --base-path /wd/hub
 На локальном мобильном устройстве можно использовать гугл учетную запись. Для этого нужно переключить в .env
 `USE_GOOGLE = True`
 
+## Оповещения в мессенджер
+
+> _Настроена отправка оповещений в телеграм канал. Возможна настройка для email, slack, discord, skype, mattermost_
+
+_img incoming_
+
 
 ## Примеры запуска тестов
 ### Веб
@@ -107,9 +113,4 @@ https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/3f1aed6b-81fc-
 https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/be7f4e28-4f6b-4023-afef-b68c09904981
 
 
-## Оповещения в мессенджер
-
-> _Настроена отправка оповещений в телеграм канал. Возможна настройка для email, slack, discord, skype, mattermost_
-
-_img incoming_
 

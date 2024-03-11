@@ -126,6 +126,22 @@ class MobileMainPage:
             be.present)
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).click()
 
+    def open_home(self):
+        time.sleep(2)
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).click()
+
+    def choose_page_for_deletion(self, name):
+        time.sleep(2)
+        browser.all((AppiumBy.CLASS_NAME, 'android.widget.TextView')).element_by(have.text(name)).click()
+
+    def delete_page(self):
+        time.sleep(2)
+        browser.all((AppiumBy.CLASS_NAME, 'android.widget.Button'))[4].click()
+        browser.all((AppiumBy.CLASS_NAME, 'android.view.MenuItem')).element_by(have.text('Delete')).click()
+
+    def page_should_be_deleted(self, name):
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).should(be.absent)
+
 
 mobile_login_page = MobileLoginPage()
 mobile_main_page = MobileMainPage()
@@ -170,12 +186,9 @@ def test_delete_page():
     mobile_login_page.mobile_login(google)
 
     # WHEN
-    time.sleep(2)
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).click()
-    time.sleep(2)
-    browser.all((AppiumBy.CLASS_NAME, 'android.widget.TextView')).element_by(have.text('Reading List')).click()
-    browser.all((AppiumBy.CLASS_NAME, 'android.widget.Button'))[4].click()
-    browser.all((AppiumBy.CLASS_NAME, 'android.view.MenuItem')).element_by(have.text('Delete')).click()
+    mobile_main_page.open_home()
+    mobile_main_page.choose_page_for_deletion('Reading List')
+    mobile_main_page.delete_page()
 
     # THEN
-    browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Reading List')).should(be.absent)
+    mobile_main_page.page_should_be_deleted('Reading List')

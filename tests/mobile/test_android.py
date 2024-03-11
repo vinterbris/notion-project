@@ -52,7 +52,8 @@ class MobileLoginPage:
     def mobile_login(self, google):
         if google:
             self.login_with_google()
-            browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name')).click()
+            self.choose_google_user()
+
         else:
             self.login_with_email()
             self.enter_email()
@@ -71,14 +72,26 @@ class MobileLoginPage:
             if mobile_login_page.incorrect_code():
                 code = get_code_from_email()
                 mobile_login_page.reenter_code(code)
+        self.wait_until_logged_in()
 
+    def choose_google_user(self):
+        browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name')).click()
+
+    def wait_until_logged_in(self):
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
             have.text('Logging in to Notion…')).wait_until(be.absent)
 
 
-
 class MobileMainPage:
-    pass
+    def allow_notifications(self):
+        browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
+
+    def ui_elements_should_be_present(self):
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).should(be.present)
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).should(be.present)
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]')).should(
+            be.present)
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).should(be.present)
 
 
 mobile_login_page = MobileLoginPage()
@@ -88,19 +101,18 @@ mobile_main_page = MobileMainPage()
 def test_login():
     google = True
 
-
     # WHEN
     mobile_login_page.mobile_login(google)
-    browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
+    mobile_main_page.allow_notifications()
+
     # THEN
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).should(be.present)
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).should(be.present)
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]')).should(be.present)
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).should(be.present)
+    mobile_main_page.ui_elements_should_be_present()
+
 
 
 def test_create_page():
-    test_login()
+    google = True
+    mobile_login_page.mobile_login(google)
 
     # WHEN
     browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).click()
@@ -117,7 +129,8 @@ def test_create_page():
 
 
 def test_search_page():
-    test_login()
+    google = True
+    mobile_login_page.mobile_login(google)
 
     # WHEN
     browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).click()
@@ -130,7 +143,8 @@ def test_search_page():
 
 
 def test_delete_page():
-    test_login()
+    google = True
+    mobile_login_page.mobile_login(google)
 
     # WHEN
     time.sleep(2)

@@ -36,14 +36,15 @@ def test_search_page():
     app.mobile_main_page.should_have_page(default_page)
 
 
-# def test_delete_page():
-#     google = True
-#     app.mobile_login_page.mobile_login(google)
-#
-#     # WHEN
-#     app.mobile_main_page.open_home()
-#     app.mobile_main_page.choose_page_for_deletion(template_name)
-#     app.mobile_main_page.delete_page()
-#
-#     # THEN
-#     app.mobile_main_page.page_should_be_deleted(template_name)
+def test_delete_page():
+    google = True
+    app.mobile_login_page.mobile_login(google)
+    app.create_page_from_template(template_name)
+
+    # WHEN
+    app.mobile_main_page.open_home()
+    app.mobile_main_page.choose_page_for_deletion(template_name)
+    app.mobile_main_page.delete_page()
+
+    # THEN
+    app.mobile_main_page.page_should_be_deleted(template_name)

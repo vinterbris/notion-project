@@ -57,7 +57,4 @@ def mobile_management(request):
 @pytest.fixture(scope='function')
 def delete_created_page():
     yield
-    app.mobile_main_page.open_home()
-    app.mobile_main_page.choose_page_for_deletion(template_name)
     app.mobile_main_page.delete_page()
-    app.mobile_main_page.page_should_be_deleted(template_name)

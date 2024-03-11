@@ -15,9 +15,11 @@ class MobileMainPage:
 
     def add_page(self):
         browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).click()
+        time.sleep(5)
         browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
 
     def button_choose_template(self):
+        browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
             have.text('Choose a template...')).wait_until(
             be.visible)
@@ -25,10 +27,12 @@ class MobileMainPage:
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Choose a template...')).click()
 
     def choose_template(self, value):
+        time.sleep(5)
         browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text(value)).click()
         browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Use')).click()
 
     def should_have_reading_list(self):
+        time.sleep(5)
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Reading List')).should(
             be.present)
 
@@ -42,7 +46,7 @@ class MobileMainPage:
         browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).click()
 
     def open_home(self):
-        time.sleep(2)
+        time.sleep(5)
         browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).click()
 
     def choose_page_for_deletion(self, name):

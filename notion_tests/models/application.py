@@ -17,7 +17,7 @@ class Application:
         self.mobile_login_page = MobileLoginPage()
         self.mobile_main_page = MobileMainPage()
 
-        self.hide_keyboard = browser.driver.execute_script('mobile: hideKeyboard')
+        # self.hide_keyboard = browser.driver.execute_script('mobile: hideKeyboard')
 
     def login(self):
         app.starting_page.open_login_form()
@@ -32,6 +32,11 @@ class Application:
         time.sleep(2)
         response = requests.get(url)
         assert response.status_code == 200
+
+    def create_page_from_template(self, name):
+        app.mobile_main_page.add_page()
+        app.mobile_main_page.button_choose_template()
+        app.mobile_main_page.choose_template(name)
 
 
 app = Application()

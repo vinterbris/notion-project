@@ -10,6 +10,7 @@
 <img height="50" src="resources/images/jenkins.png"/>     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img height="50" src="resources/images/allure.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img height="50" src="resources/images/Selenoid.svg"/>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/browserstack.png"/>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img height="50" src="resources/images/telegram.png"/>
 </h3>
 

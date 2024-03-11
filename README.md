@@ -45,7 +45,7 @@
 #### Для запуска автотестов в Jenkins
 
 1. Выбрать пункт `Build now`  
-   * Запуск веб тестов на селеноид: `tests/web --context=selenoid`  
+   * Запуск веб тестов на selenoid: `tests/web --context=selenoid`  
    * Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`  
 2. Результат запуска сборки можно посмотреть в отчёте Allure
 

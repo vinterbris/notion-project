@@ -83,11 +83,13 @@ class MobileLoginPage:
                 code = get_code_from_email()
                 mobile_login_page.reenter_code(code)
         self.wait_until_logged_in()
+        self.allow_notifications()
+
+    def allow_notifications(self):
+        browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
 
 
 class MobileMainPage:
-    def allow_notifications(self):
-        browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
 
     def ui_elements_should_be_present(self):
         browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).should(be.present)
@@ -95,6 +97,25 @@ class MobileMainPage:
         browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]')).should(
             be.present)
         browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).should(be.present)
+
+    def add_page(self):
+        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).click()
+        browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
+
+    def button_choose_template(self):
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
+            have.text('Choose a template...')).wait_until(
+            be.visible)
+        time.sleep(2)
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Choose a template...')).click()
+
+    def choose_template(self, value):
+        browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text(value)).click()
+        browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Use')).click()
+
+    def should_have_reading_list(self):
+        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Reading List')).should(
+            be.present)
 
 
 mobile_login_page = MobileLoginPage()
@@ -106,7 +127,6 @@ def test_login():
 
     # WHEN
     mobile_login_page.mobile_login(google)
-    mobile_main_page.allow_notifications()
 
     # THEN
     mobile_main_page.ui_elements_should_be_present()
@@ -117,17 +137,12 @@ def test_create_page():
     mobile_login_page.mobile_login(google)
 
     # WHEN
-    browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).click()
-    browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
-    browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Choose a template...')).wait_until(
-        be.visible)
-    time.sleep(2)
-    browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Choose a template...')).click()
-    browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Reading List')).click()
-    browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Use')).click()
+    mobile_main_page.add_page()
+    mobile_main_page.button_choose_template()
+    mobile_main_page.choose_template('Reading List')
 
     # THEN
-    browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Reading List')).should(be.present)
+    mobile_main_page.should_have_reading_list()
 
 
 def test_search_page():

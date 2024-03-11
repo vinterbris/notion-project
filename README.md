@@ -1,4 +1,4 @@
-<h1 align="center">Проект web и mobile автотестов Notion<p align="center">
+<h1 align="center">Проект web и mobile автотестов<p align="center">
 <a href="link.ru"> <img src="resources/images/notion.png" width="" height="110"> </a> </h1>
 
 

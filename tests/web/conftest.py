@@ -2,12 +2,13 @@ import os
 
 import pytest
 from dotenv import load_dotenv
-from selene import browser, have, be
+from selene import browser
 from selenium.webdriver.chrome.options import Options
 
 from notion_tests.models.application import app
-from notion_tests.utils import attach
 from notion_tests.test_data.data import workspace_name
+from notion_tests.utils import attach
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -63,12 +64,12 @@ def browser_management(request):
     browser.quit()
 
 
-
 @pytest.fixture(scope='function')
 def delete_current_page():
     yield
     app.main_page.topbar.open_page_options_panel()
     app.main_page.page_options.choose_delete()
+
 
 @pytest.fixture(scope='function')
 def unfavorite_and_delete_current_page():
@@ -85,6 +86,7 @@ def unfavorite_and_delete_current_page():
 def unpublish_page():
     yield
     app.main_page.share_menu.unpublish_page()
+
 
 @pytest.fixture(scope='function')
 def archive_teamspace():

@@ -1,6 +1,6 @@
 import requests
 import time
-from selene import be, browser
+from selene import be
 
 from notion_tests.models.pages.mobile.login_page import MobileLoginPage
 from notion_tests.models.pages.mobile.main_page import MobileMainPage
@@ -35,7 +35,7 @@ class Application:
 
     def create_page_from_template(self, name):
         app.mobile_main_page.add_page()
-        app.mobile_main_page.button_choose_template()
+        app.mobile_main_page.press_button_choose_template()
         app.mobile_main_page.choose_template(name)
 
 

@@ -11,17 +11,22 @@ class MobileLoginPage:
     def __init__(self):
         self.login_loader = browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
             have.text('Logging in to Notion…'))
-        self.google_account_display_name = browser.element((AppiumBy.ID, 'com.google.android.gms:id/account_display_name'))
+        self.google_account_display_name = browser.element(
+            (AppiumBy.ID, 'com.google.android.gms:id/account_display_name'))
         self.button_continue_with_login_code = browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(
             have.text('Continue with login code'))
         self.field_password_or_code = browser.all((AppiumBy.CLASS_NAME, 'android.widget.EditText'))[-1]
         self.field_email = browser.element((AppiumBy.XPATH,
-            '//android.widget.EditText[@resource-id="notion-email-input-2"]'
-        ))
-        self.button_continue_with_email_lowercase = browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="continue with email"]'))
-        self.button_continue_with_email = browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]'))
-        self.buton_continue_with_google = browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Continue with Google'))
-        self.incorrect_code = browser.all((AppiumBy.XPATH, 'android.widget.TextView')).element_by(have.text('Your login code was incorrect. Please try again.'))
+                                            '//android.widget.EditText[@resource-id="notion-email-input-2"]'
+                                            ))
+        self.button_continue_with_email_lowercase = browser.element(
+            (AppiumBy.XPATH, '//android.widget.TextView[@text="continue with email"]'))
+        self.button_continue_with_email = browser.element(
+            (AppiumBy.XPATH, '//android.widget.Button[@text="Continue with email"]'))
+        self.buton_continue_with_google = browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(
+            have.text('Continue with Google'))
+        self.incorrect_code = browser.all((AppiumBy.XPATH, 'android.widget.TextView')).element_by(
+            have.text('Your login code was incorrect. Please try again.'))
         self.button_continue = browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue"]'))
 
     def login_with_google(self):
@@ -75,7 +80,9 @@ class MobileLoginPage:
             else:
                 self.press_button_login_with_email()
             code = get_code_from_email()
-            browser.driver.execute_script('mobile: hideKeyboard')
+            # browser.driver.execute_script('mobile: hideKeyboard')
+            # browser.element((AppiumBy.XPATH, '//android.widget.TextView"')).click()
+            browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="Welcome to Notion! 👋"]')).click()
 
             self.enter_password(code)
             self.pressbutton_continue_with_code()

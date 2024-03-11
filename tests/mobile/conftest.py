@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from selene import browser, support
 
 from notion_tests.models.application import app
-from notion_tests.test_data.data import template_name
 from notion_tests.utils import attach
 
 
@@ -54,7 +53,8 @@ def mobile_management(request):
 
     browser.quit()
 
+
 @pytest.fixture(scope='function')
 def delete_created_page():
     yield
-    app.mobile_main_page.delete_page()
+    app.mobile_main_page.delete_page_on_page_screen()

@@ -20,6 +20,8 @@ class WebConfig(pydantic_settings.BaseSettings):
 
     notion_api_url: str = os.getenv('API_URL')
     notion_api_key: str = os.getenv('API_KEY')
+    notion_id: str = os.getenv('NOTION_PAGE_ID')
+    notion_database_id: str = os.getenv('NOTION_DATABASE_ID')
 
     # web
     base_url: str = os.getenv('URL')
@@ -82,8 +84,8 @@ class MobileConfig(pydantic_settings.BaseSettings):
                     'projectName': 'First Python project',
                     'buildName': 'browserstack-build-1',
                     'sessionName': 'BStack first_test',
-                    'userName': os.getenv('USER_NAME'),
-                    'accessKey': os.getenv('ACCESSKEY'),
+                    'userName': os.getenv('BROWSERSTACK_USER_NAME'),
+                    'accessKey': os.getenv('BROWSERSTACK_ACCESSKEY'),
                 },
             )
         elif context == 'local_mobile':

@@ -6,57 +6,79 @@ from selene import browser, be, have
 
 class MobileMainPage:
 
+    def __init__(self):
+        # self.reading_list_on_home_page = browser.element((AppiumBy.XPATH, '(//android.view.View[@resource-id="page_row_Reading List"]/android.view.View/android.view.View[3]'))
+        self.reading_list_on_home_page = browser.element(
+            (AppiumBy.XPATH, '(//android.widget.TextView[@text="Reading List"])[2]'))
+        self.menuitem_delete = browser.all((AppiumBy.CLASS_NAME, 'android.view.MenuItem')).element_by(
+            have.text('Delete'))
+        self.page_menuitem_delete = browser.all((AppiumBy.XPATH, '//android.widget.TextView[@text="Delete"]'))
+        self.button_page_settings = browser.all((AppiumBy.CLASS_NAME, 'android.widget.Button'))[4]
+        self.list_of_all_textviews = browser.all((AppiumBy.XPATH, '//android.widget.TextView'))
+        self.reading_list = browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
+            have.text('Reading List'))
+        self.button_use = browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Use'))
+        self.list_of_all_buttons_on_page = browser.all((AppiumBy.XPATH, '//android.widget.Button'))
+        self.button_choose_template = browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
+            have.text('Choose a template...'))
+        self.field_text = browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText'))
+        self.button_add_page = browser.element(
+            (AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]'))
+        self.button_updates = browser.element(
+            (AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]'))
+        self.button_search = browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]'))
+        self.button_open_home = browser.element(
+            (AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]'))
+
     def ui_elements_should_be_present(self):
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).should(be.present)
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).should(be.present)
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_allUpdates"]')).should(
+        self.button_open_home.should(be.present)
+        self.button_search.should(be.present)
+        self.button_updates.should(
             be.present)
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).should(be.present)
+        self.button_add_page.should(be.present)
 
     def add_page(self):
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_addPage"]')).click()
-        time.sleep(5)
-        browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
+        self.button_add_page.click()
+        # time.sleep(5)
+        # self.field_text.click()
 
-    def button_choose_template(self):
-        browser.element((AppiumBy.CLASS_NAME, 'android.widget.EditText')).click()
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
-            have.text('Choose a template...')).wait_until(
-            be.visible)
+    def press_button_choose_template(self):
+        time.sleep(5)
+        self.field_text.click()
+        self.button_choose_template.wait_until(be.visible)
         time.sleep(2)
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Choose a template...')).click()
+        self.button_choose_template.click()
 
     def choose_template(self, value):
         time.sleep(5)
-        browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text(value)).click()
-        browser.all((AppiumBy.XPATH, '//android.widget.Button')).element_by(have.text('Use')).click()
+        self.list_of_all_buttons_on_page.element_by(have.text(value)).click()
+        self.button_use.click()
 
     def should_have_reading_list(self):
         time.sleep(5)
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text('Reading List')).should(
+        self.reading_list.should(
             be.present)
 
     def search(self, page):
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_search"]')).click()
-        browser.element((AppiumBy.XPATH, '//android.widget.EditText')).send_keys(page)
+        self.button_search.click()
+        self.field_text.send_keys(page)
 
     def should_have_page(self, name):
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).should(
-            be.present)
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).click()
+        self.list_of_all_textviews.element_by(have.text(name)).should(be.present)
+        self.list_of_all_textviews.element_by(have.text(name)).click()
 
     def open_home(self):
         time.sleep(5)
-        browser.element((AppiumBy.XPATH, '//android.view.View[@resource-id="navigate_to_home"]')).click()
+        self.button_open_home.click()
 
-    def choose_page_for_deletion(self, name):
+    def choose_page_for_deletion(self):
         time.sleep(2)
-        browser.all((AppiumBy.CLASS_NAME, 'android.widget.TextView')).element_by(have.text(name)).click()
+        self.reading_list_on_home_page.click()
 
-    def delete_page(self):
+    def delete_page_on_page_screen(self):
         time.sleep(2)
-        browser.all((AppiumBy.CLASS_NAME, 'android.widget.Button'))[4].click()
-        browser.all((AppiumBy.CLASS_NAME, 'android.view.MenuItem')).element_by(have.text('Delete')).click()
+        self.button_page_settings.click()
+        self.menuitem_delete.click()
 
     def page_should_be_deleted(self, name):
-        browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(have.text(name)).should(be.absent)
+        self.list_of_all_textviews.element_by(have.text(name)).should(be.absent)

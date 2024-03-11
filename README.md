@@ -18,12 +18,23 @@
 
 ---
 
+### Реализованы тесты:
+
+- [x] Логин
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+- [x] 
+
+## Запуск тестов
+### Удаленно
 Запуск в jenkins https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/
 
 * Запуск веб тестов на селеноид: tests/web --context=selenoid
 * Запуск мобильных тестов в browserstack: tests/mobile --context=bstack
 
-Локальный запуск:
+### Локально
 
 ```bash
 python -m venv .venv 
@@ -62,7 +73,14 @@ MAIL_SLURP_INBOX_ID
 USE_GOOGLE = True
 
 
-# Видео мобильного теста
+## Примеры запуска тестов
+### Веб
+### Мобильных
 https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/be7f4e28-4f6b-4023-afef-b68c09904981
 
 
+## Оповещения в мессенджер
+
+> _Настроена отправка оповещений в телеграм канал. Возможна настройка для email, slack, discord, skype, mattermost_
+
+_img incoming_

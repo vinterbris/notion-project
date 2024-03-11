@@ -5,6 +5,8 @@ from appium import webdriver
 from dotenv import load_dotenv
 from selene import browser, support
 
+from notion_tests.models.application import app
+from notion_tests.test_data.data import template_name
 from notion_tests.utils import attach
 
 
@@ -51,3 +53,11 @@ def mobile_management(request):
         attach.add_bstack_video(session_id, bstack['userName'], bstack['accessKey'])
 
     browser.quit()
+
+@pytest.fixture(scope='function')
+def delete_created_page():
+    yield
+    app.mobile_main_page.open_home()
+    app.mobile_main_page.choose_page_for_deletion(template_name)
+    app.mobile_main_page.delete_page()
+    app.mobile_main_page.page_should_be_deleted(template_name)

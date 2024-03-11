@@ -35,10 +35,14 @@
 
 ## Запуск тестов
 ### Удаленно
-Запуск в jenkins https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/
+> <a target="_blank" href="https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/">Ссылка на проект в Jenkins</a>
+#### Для запуска автотестов в Jenkins
 
-* Запуск веб тестов на селеноид: tests/web --context=selenoid
-* Запуск мобильных тестов в browserstack: tests/mobile --context=bstack
+1. Выбрать пункт `Build now`
+   2. Запуск веб тестов на селеноид: `tests/web --context=selenoid`
+   3. Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`
+2. Результат запуска сборки можно посмотреть в отчёте Allure
+
 
 ### Локально
 
@@ -90,3 +94,4 @@ https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/be7f4e28-4f6b-
 > _Настроена отправка оповещений в телеграм канал. Возможна настройка для email, slack, discord, skype, mattermost_
 
 _img incoming_
+

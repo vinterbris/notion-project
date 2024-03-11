@@ -40,7 +40,7 @@
 - [x] Удаление страницы
 
 ## Запуск тестов
----
+
 ### Удаленно
 > <a target="_blank" href="https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/">Ссылка на проект в Jenkins</a>
 #### Для запуска автотестов в Jenkins
@@ -107,7 +107,7 @@ _img incoming_
 
 
 ## Примеры запуска тестов
----
+
 ### Веб
 https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/3f1aed6b-81fc-4469-9c73-3bf83a0c5d88
 

@@ -24,8 +24,8 @@ class WebConfig(pydantic_settings.BaseSettings):
 
     # web
     base_url: str = os.getenv('URL')
-    window_width: int = 1600
-    window_height: int = 1000
+    window_width: int = 1920
+    window_height: int = 1080
 
     def to_driver_options(self, context):
         from selenium.webdriver.chrome.options import Options

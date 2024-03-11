@@ -4,13 +4,13 @@
 
 <h3 align="center">Python | Pytest | Selene | Jenkins | Allure | Selenoid | Browserstack | Telegram</h3>
 <h3 align="center">
-<img height="50" src="resources/images/Python.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="50" src="resources/images/Pytest.svg"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="50" src="resources/images/Selene.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="50" src="resources/images/jenkins.png"/>     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="50" src="resources/images/allure.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="50" src="resources/images/Selenoid.svg"/>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img height="50" src="resources/images/browserstack.png"/>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/Python.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/Pytest.svg"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/Selene.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/jenkins.png"/>     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/allure.png"/>      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/Selenoid.svg"/>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img height="50" src="resources/images/browserstack.png"/>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img height="50" src="resources/images/telegram.png"/>
 </h3>
 

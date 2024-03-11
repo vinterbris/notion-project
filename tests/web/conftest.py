@@ -3,6 +3,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 from selene import browser
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from notion_tests.models.application import app
@@ -19,8 +20,8 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope='session', autouse=True)
-def load_env(request):
-    context = request.web_config.getoption("--context")
+def load_env(request, pytestconfig):
+    context = pytestconfig.getoption("--context")
     load_dotenv()
     load_dotenv(dotenv_path=f'.env.{context}')
     print(context)
@@ -28,32 +29,38 @@ def load_env(request):
 
 @pytest.fixture(scope="function", autouse=True)
 def browser_management(request):
-    context = request.web_config.getoption("--context")
+    context = request.config.getoption("--context")
+    # context = 'selenoid'
     from config import web_config
 
-    browser.web_config.base_url = web_config.base_url
-    browser.web_config.timeout = web_config.timeout
-    browser.web_config.window_width = web_config.window_width
-    browser.web_config.window_height = web_config.window_height
+    browser.config.base_url = web_config.base_url
+    browser.config.timeout = web_config.timeout
+    browser.config.window_width = web_config.window_width
+    browser.config.window_height = web_config.window_height
 
-    options = Options()
-    options.page_load_strategy = 'eager'
-    browser.web_config.driver_options = options
+    options = web_config.to_driver_options(context)
+
+    # options = Options()
+    # options.page_load_strategy = 'eager'
+    #
     # selenoid_capabilities = {
     #     "browserName": "chrome",
     #     "browserVersion": "122.0",
     #     "selenoid:options": {"enableVNC": True, "enableVideo": True},
     # }
     # options.capabilities.update(selenoid_capabilities)
-    #
-    # login = os.getenv("SELENOID_LOGIN")
-    # password = os.getenv("SELENOID_PASSWORD")
-    # driver = webdriver.Remote(
-    #     command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
-    #     options=options,
-    # )
-    #
-    # browser.config.driver = driver
+    if context == 'selenoid':
+        login = os.getenv("SELENOID_LOGIN")
+        password = os.getenv("SELENOID_PASSWORD")
+        driver = webdriver.Remote(
+            command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
+            options=options,
+        )
+
+        browser.config.driver_options = options
+        browser.config.driver = driver
+    else:
+        browser.config.driver_options = options
 
     yield
     attach.add_screenshot(browser)

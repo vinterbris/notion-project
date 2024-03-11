@@ -22,11 +22,9 @@ def get_code_from_email():
 
 def get_email_subject(waitfor_controller):
     email = get_email(waitfor_controller)
-    print(email.subject)
     if email.subject == 'A new device logged into your account':
-        time.sleep(2)
+        time.sleep(5)
         email = get_email(waitfor_controller)
-        print(email.subject)
     return email
 
 

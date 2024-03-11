@@ -19,11 +19,10 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='function', autouse=True)
 def mobile_management(request):
-    # context = request.mobile_config.getoption("--context")
-    context = 'local_mobile'
-    # print(context)
+    context = request.config.getoption("--context")
+
     load_dotenv('.env')
-    # load_dotenv(dotenv_path=f'.env.{context}')
+    load_dotenv(dotenv_path=f'.env.{context}')
     from config import mobile_config
 
     options = mobile_config.to_driver_options(context)

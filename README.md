@@ -1,5 +1,11 @@
-<h1 align="center">Проект web и mobile автотестов<p align="center">
-<a href="notion.so"> <img src="resources/images/notion.png" width="" height="110"> </a> </h1>
+<h1 align="center">Проект web и mobile автотестов</h1>
+<p align="center">
+<a href="https://notion.so">
+  <img src="resources/images/notion.png" width="" height="110">
+</a>
+<figcaption align="center">Notion: Your connected workspace for wiki, docs & projects</figcaption>
+</p>
+
 
 
 <h3 align="center">Python | Pytest | Selene | Jenkins | Allure | Selenoid | Browserstack | Telegram</h3>

@@ -51,11 +51,17 @@
 
 ### Локально
 
-1. Клонировать репозиторий `https://github.com/vinterbris/qa_guru_python_9_24.git`
-2. В терминале выполнить
+1. Клонировать репозиторий 
+```bash
+git clone https://github.com/vinterbris/qa_guru_python_9_24.git
+```
+2. Создать и активировать виртуальное окружение
 ```bash
 python -m venv .venv 
 source .venv/bin/activate 
+```
+3. Установить зависимости
+```
 pip install -r requirements.txt 
 ```
 

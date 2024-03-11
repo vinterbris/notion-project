@@ -60,3 +60,9 @@ MAIL_SLURP_INBOX_ID
 
 На локальном мобильном устройстве можно использовать гугл учетную запись. Для этого нужно переключить в .env
 USE_GOOGLE = True
+
+
+# Видео мобильного теста
+https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/be7f4e28-4f6b-4023-afef-b68c09904981
+
+

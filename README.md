@@ -31,7 +31,7 @@
 - [x] Публикация страницы
 - [x] Создание пространства команды
 - [x] Создание страницы из шаблона
-- [x] Добавление страницы в любимые
+- [x] Добавление страницы в избранное
 #### Mobile
 - [x] Логин
 - [x] Добавление страницы
@@ -51,13 +51,15 @@
 
 ### Локально
 
+1. Клонировать репозиторий `https://github.com/vinterbris/qa_guru_python_9_24.git`
+2. В терминале выполнить
 ```bash
 python -m venv .venv 
 source .venv/bin/activate 
 pip install -r requirements.txt 
 ```
 
-Варианты запуска:
+#### Варианты запуска:
 
 * Веб на селеноид
 * Веб локально
@@ -71,6 +73,12 @@ tests/mobile --context=bstack
 tests/mobile --context=local_mobile
 ```
 
+#### Получение отчета allure
+```bazaar
+allure serve
+```
+
+
 Для локального запуска мобильных тестов требуется запуск appium командой:
 
 ```
@@ -78,11 +86,7 @@ appium --base-path /wd/hub
 ```
 
 Для совершения логина используется сервис временной почты mailslurp:
-В .env указываются id почтового ящика и api ключ
-
-MAIL_SLURP_API_KEY
-
-MAIL_SLURP_INBOX_ID
+В .env указываются id почтового ящика и api ключ:`MAIL_SLURP_API_KEY`,`MAIL_SLURP_INBOX_ID`
 
 На локальном мобильном устройстве можно использовать гугл учетную запись. Для этого нужно переключить в .env
 USE_GOOGLE = True

@@ -94,6 +94,8 @@ USE_GOOGLE = True
 
 ## Примеры запуска тестов
 ### Веб
+https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/3f1aed6b-81fc-4469-9c73-3bf83a0c5d88
+
 ### Мобильных
 https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/be7f4e28-4f6b-4023-afef-b68c09904981
 

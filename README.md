@@ -57,7 +57,7 @@
 ```bash
 git clone https://github.com/vinterbris/qa_guru_python_9_24.git
 ```
-2. Создать и активировать виртуальное окружение
+2. В терминале pycharm создать и активировать виртуальное окружение
 ```bash
 python -m venv .venv 
 source .venv/bin/activate 
@@ -101,8 +101,7 @@ appium --base-path /wd/hub
 
 ## Оповещения в мессенджер
 
-> _Настроена отправка оповещений в телеграм канал. Возможна настройка для email, slack, discord, skype, mattermost_
-
+> _Настроена отправка оповещений в телеграм канал. Возможна настройка для Email,Slack, Discord, Skype, Mattermost, Rocket.Chat_
 _img incoming_
 
 

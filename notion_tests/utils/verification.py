@@ -20,16 +20,16 @@ def get_code_from_email():
     return code
 
 
-def get_email_subject(waitfor_controller):
-    email = get_email(waitfor_controller)
+def get_email_subject(wait_for_controller):
+    email = get_email(wait_for_controller)
     if email.subject == 'A new device logged into your account':
         time.sleep(5)
-        email = get_email(waitfor_controller)
+        email = get_email(wait_for_controller)
     return email
 
 
-def get_email(waitfor_controller):
-    email = waitfor_controller.wait_for_latest_email(
+def get_email(wait_for_controller):
+    email = wait_for_controller.wait_for_latest_email(
         inbox_id=mail_config.mail_inbox_id,
         timeout=mail_config.mail_wait_timeout,
         unread_only=True

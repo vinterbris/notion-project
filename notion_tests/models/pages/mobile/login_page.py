@@ -1,6 +1,5 @@
 import os
 
-import time
 from appium.webdriver.common.appiumby import AppiumBy
 from selene import browser, have, be
 
@@ -10,7 +9,7 @@ from notion_tests.utils.verification import get_code_from_email
 class MobileLoginPage:
     def __init__(self):
         self.button_continue_with_password = browser.element(
-            ((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with password"]')))
+            (AppiumBy.XPATH, '//android.widget.Button[@text="Continue with password"]'))
         self.password = browser.element((AppiumBy.XPATH, '//android.view.View[@text="Password"]'))
         self.text_welcome_to_notion_click_to_hide_keyboard = browser.element(
             (AppiumBy.XPATH, '//android.widget.TextView[@text="Welcome to Notion! 👋"]'))
@@ -36,6 +35,7 @@ class MobileLoginPage:
 
     def login_with_google(self):
         self.buton_continue_with_google.click()
+        self.google_account_display_name.click()
 
     def login_with_email(self):
         self.button_continue_with_email.wait_until(be.visible)
@@ -43,9 +43,25 @@ class MobileLoginPage:
             self.button_continue_with_email.click()
         else:
             self.button_continue_with_email_lowercase.click()
-
-    def enter_email(self):
         self.field_email.type(os.getenv('LOGIN'))
+
+        self.field_password_or_code.wait_until(be.visible)
+        if self.button_continue.matching(be.present):
+            self.press_button_continue()
+        else:
+            self.press_button_login_with_email()
+        if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+            self.text_welcome_to_notion_click_to_hide_keyboard.click()
+        if self.password.matching(be.present):
+            self.enter_password(os.getenv('PASSWORD'))
+            self.button_continue_with_password.click()
+        else:
+            code = get_code_from_email()
+            self.enter_password(code)
+            self.press_button_continue_with_code()
+            if self.incorrect_code.matching(be.present):
+                code = get_code_from_email()
+                self.reenter_code(code)
 
     def press_button_continue(self):
         self.button_continue.click()
@@ -62,38 +78,14 @@ class MobileLoginPage:
     def reenter_code(self, code):
         self.field_password_or_code.type(code).press_enter()
 
-    def choose_google_user(self):
-        self.google_account_display_name.click()
-
     def wait_until_logged_in(self):
         self.login_loader.wait_until(be.absent)
 
     def mobile_login(self, google):
         if google:
             self.login_with_google()
-            self.choose_google_user()
-
         else:
             self.login_with_email()
-            self.enter_email()
-
-            self.field_password_or_code.wait_until(be.visible)
-            if self.button_continue.matching(be.present):
-                self.press_button_continue()
-            else:
-                self.press_button_login_with_email()
-            if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
-                self.text_welcome_to_notion_click_to_hide_keyboard.click()
-            if self.password.matching(be.present):
-                self.enter_password(os.getenv('PASSWORD'))
-                self.button_continue_with_password.click()
-            else:
-                code = get_code_from_email()
-                self.enter_password(code)
-                self.press_button_continue_with_code()
-                if self.incorrect_code.matching(be.present):
-                    code = get_code_from_email()
-                    self.reenter_code(code)
         self.wait_until_logged_in()
         self.allow_notifications()
 

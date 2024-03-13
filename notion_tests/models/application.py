@@ -1,6 +1,5 @@
-import time
-
 import requests
+import time
 from selene import be
 
 from notion_tests.models.pages.mobile.login_page import MobileLoginPage
@@ -17,8 +16,6 @@ class Application:
         self.main_page = MainPage()
         self.mobile_login_page = MobileLoginPage()
         self.mobile_main_page = MobileMainPage()
-
-        # self.hide_keyboard = browser.driver.execute_script('mobile: hideKeyboard')
 
     def login(self):
         app.starting_page.open_login_form()

@@ -12,5 +12,5 @@ def test_login():
         app.mobile_login_page.mobile_login(google)
 
     # THEN
-    with step('Должны присутсвовать UI элементы страницы'):
+    with step('Должны присутствовать UI элементы страницы'):
         app.mobile_main_page.ui_elements_should_be_present()

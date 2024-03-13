@@ -10,6 +10,6 @@ def test_login():
         app.login()
 
     # THEN
-    with step('Должны присутсвовать UI элементы страницы'):
+    with step('Должны присутствовать UI элементы страницы'):
         app.main_page.sidebar.should_have_sidebar_ui_elements("Sergey's Notion")
         app.main_page.topbar.should_have_topbar_ui_elements()

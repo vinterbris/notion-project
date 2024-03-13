@@ -1,6 +1,6 @@
 import os
-import time
 
+import time
 from appium.webdriver.common.appiumby import AppiumBy
 from selene import browser, have, be
 
@@ -9,6 +9,11 @@ from notion_tests.utils.verification import get_code_from_email
 
 class MobileLoginPage:
     def __init__(self):
+        self.button_continue_with_password = browser.element(
+            ((AppiumBy.XPATH, '//android.widget.Button[@text="Continue with password"]')))
+        self.password = browser.element((AppiumBy.XPATH, '//android.view.View[@text="Password"]'))
+        self.text_welcome_to_notion_click_to_hide_keyboard = browser.element(
+            (AppiumBy.XPATH, '//android.widget.TextView[@text="Welcome to Notion! 👋"]'))
         self.login_loader = browser.all((AppiumBy.XPATH, '//android.widget.TextView')).element_by(
             have.text('Logging in to Notion…'))
         self.google_account_display_name = browser.element(
@@ -33,10 +38,8 @@ class MobileLoginPage:
         self.buton_continue_with_google.click()
 
     def login_with_email(self):
-        time.sleep(2)
-        self.button_continue_with_email.wait_until(be.clickable)
-        if self.button_continue_with_email.matching(
-                be.present):
+        self.button_continue_with_email.wait_until(be.visible)
+        if self.button_continue_with_email.matching(be.present):
             self.button_continue_with_email.click()
         else:
             self.button_continue_with_email_lowercase.click()
@@ -53,7 +56,7 @@ class MobileLoginPage:
     def enter_password(self, code):
         self.field_password_or_code.type(code)
 
-    def pressbutton_continue_with_code(self):
+    def press_button_continue_with_code(self):
         self.button_continue_with_login_code.click()
 
     def reenter_code(self, code):
@@ -74,22 +77,23 @@ class MobileLoginPage:
             self.login_with_email()
             self.enter_email()
 
-            time.sleep(5)
+            self.field_password_or_code.wait_until(be.visible)
             if self.button_continue.matching(be.present):
                 self.press_button_continue()
             else:
                 self.press_button_login_with_email()
-            code = get_code_from_email()
-            # browser.driver.execute_script('mobile: hideKeyboard')
-            # browser.element((AppiumBy.XPATH, '//android.widget.TextView"')).click()
-            browser.element((AppiumBy.XPATH, '//android.widget.TextView[@text="Welcome to Notion! 👋"]')).click()
-
-            self.enter_password(code)
-            self.pressbutton_continue_with_code()
-
-            if self.incorrect_code.matching(be.present):
+            if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+                self.text_welcome_to_notion_click_to_hide_keyboard.click()
+            if self.password.matching(be.present):
+                self.enter_password(os.getenv('PASSWORD'))
+                self.button_continue_with_password.click()
+            else:
                 code = get_code_from_email()
-                self.reenter_code(code)
+                self.enter_password(code)
+                self.press_button_continue_with_code()
+                if self.incorrect_code.matching(be.present):
+                    code = get_code_from_email()
+                    self.reenter_code(code)
         self.wait_until_logged_in()
         self.allow_notifications()
 

@@ -77,8 +77,8 @@ pip install -r requirements.txt
 ```bash
 pytest tests/web --context=selenoid
 pytest tests/web --context=local
-tests/mobile --context=bstack
-tests/mobile --context=local_mobile
+pytest tests/mobile --context=bstack
+pytest tests/mobile --context=local_mobile
 ```
 
 #### Получение отчета allure

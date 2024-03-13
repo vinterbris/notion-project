@@ -11,8 +11,8 @@ configuration.api_key['x-api-key'] = mail_config.mail_api_key
 
 def get_code_from_email():
     with mailslurp_client.ApiClient(configuration) as api_client:
-        waitfor_controller = mailslurp_client.WaitForControllerApi(api_client)
-        email = get_email_subject(waitfor_controller)
+        wait_for_controller = mailslurp_client.WaitForControllerApi(api_client)
+        email = get_email_subject(wait_for_controller)
         pattern = re.compile(r"Your temporary Notion login code is ([A-Za-z0-9]+(-[A-Za-z0-9]+)+)")
         matches = pattern.match(email.subject)
         code = matches.group(1)

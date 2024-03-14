@@ -1,3 +1,4 @@
+import pytest
 from allure_commons._allure import step
 
 from config import mobile_config
@@ -35,6 +36,7 @@ def test_search_page():
         app.mobile_main_page.should_have_page(default_page)
 
 
+@pytest.mark.unstable
 def test_delete_page():
     app.mobile_login_page.mobile_login(google)
     with step('Создать страницу'):

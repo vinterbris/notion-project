@@ -22,14 +22,13 @@ def pytest_addoption(parser):
 @pytest.fixture(scope='function', autouse=True)
 def mobile_management(request):
     context = request.config.getoption("--context")
-
-    load_dotenv('.env')
+    load_dotenv()
     from config import mobile_config
 
     if context == 'bstack':
         remote_url = mobile_config.rem_url
     else:
-        remote_url = os.getenv('REMOTEURLLOCAL')
+        remote_url = os.getenv('REMOTE_URL_LOCAL')
 
     options = mobile_config.to_driver_options(context)
     with allure.step('init app session'):

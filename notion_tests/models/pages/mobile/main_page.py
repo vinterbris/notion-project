@@ -39,25 +39,25 @@ class MobileMainPage:
 
     def add_page(self):
         self.button_add_page.click()
-        # time.sleep(5)
-        # self.field_text.click()
 
     def press_button_choose_template(self):
-        time.sleep(5)
+        self.field_text.wait_until(be.clickable)
+        print('ждет поле')
         self.field_text.click()
-        self.button_choose_template.wait_until(be.visible)
-        time.sleep(2)
+        print('кликает на поле')
+        self.button_choose_template.wait_until(be.clickable)
+        print('ждет появления выбора темплейта')
         self.button_choose_template.click()
+        print('кликает на выбор темплейта')
 
     def choose_template(self, value):
-        time.sleep(5)
+        self.list_of_all_buttons_on_page.wait_until(be.visible)
         self.list_of_all_buttons_on_page.element_by(have.text(value)).click()
         self.button_use.click()
 
     def should_have_reading_list(self):
-        time.sleep(5)
-        self.reading_list.should(
-            be.present)
+        self.reading_list.wait_until(be.visible)
+        self.reading_list.should(be.present)
 
     def search(self, page):
         self.button_search.click()
@@ -68,15 +68,15 @@ class MobileMainPage:
         self.list_of_all_textviews.element_by(have.text(name)).click()
 
     def open_home(self):
-        time.sleep(5)
+        self.button_open_home.wait_until(be.visible)
         self.button_open_home.click()
 
     def choose_page_for_deletion(self):
-        time.sleep(2)
+        self.reading_list_on_home_page.wait_until(be.visible)
         self.reading_list_on_home_page.click()
 
     def delete_page_on_page_screen(self):
-        time.sleep(2)
+        self.button_page_settings.wait_until(be.visible)
         self.button_page_settings.click()
         self.menuitem_delete.click()
 

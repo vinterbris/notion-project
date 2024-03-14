@@ -8,6 +8,12 @@ from notion_tests.utils.verification import get_code_from_email
 
 class MobileLoginPage:
     def __init__(self):
+        self.text_temporary_code_sent = browser.element((AppiumBy.XPATH,
+                                                         '//android.widget.TextView'
+                                                         '[@text="We just sent you a temporary login code.\n'
+                                                         'Please check your inbox."]'))
+        self.button_allow_permission = browser.element(
+            (AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button'))
         self.button_continue_with_password = browser.element(
             (AppiumBy.XPATH, '//android.widget.Button[@text="Continue with password"]'))
         self.password = browser.element((AppiumBy.XPATH, '//android.view.View[@text="Password"]'))
@@ -21,8 +27,7 @@ class MobileLoginPage:
             have.text('Continue with login code'))
         self.field_password_or_code = browser.all((AppiumBy.CLASS_NAME, 'android.widget.EditText'))[-1]
         self.field_email = browser.element((AppiumBy.XPATH,
-                                            '//android.widget.EditText[@resource-id="notion-email-input-2"]'
-                                            ))
+                                            '//android.widget.EditText[@resource-id="notion-email-input-2"]'))
         self.button_continue_with_email_lowercase = browser.element(
             (AppiumBy.XPATH, '//android.widget.TextView[@text="continue with email"]'))
         self.button_continue_with_email = browser.element(
@@ -33,25 +38,48 @@ class MobileLoginPage:
             have.text('Your login code was incorrect. Please try again.'))
         self.button_continue = browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue"]'))
 
+    def mobile_login(self, google):
+        if google:
+            self.login_with_google()
+        else:
+            self.login_with_email()
+        self.wait_until_logged_in()
+        self.allow_notifications()
+
     def login_with_google(self):
         self.buton_continue_with_google.click()
         self.google_account_display_name.click()
 
     def login_with_email(self):
-        self.button_continue_with_email.wait_until(be.visible)
-        if self.button_continue_with_email.matching(be.present):
-            self.button_continue_with_email.click()
-        else:
-            self.button_continue_with_email_lowercase.click()
-        self.field_email.type(os.getenv('LOGIN'))
+        self.enter_email()
+        self.enter_password_or_code()
 
-        self.field_password_or_code.wait_until(be.visible)
+    def enter_email(self):
+        self.button_continue_with_email.wait_until(be.visible)
+        self.press_continue()
+        self.field_email.type(os.getenv('LOGIN'))
+        self.submit_email()
+
+    def submit_email(self):
         if self.button_continue.matching(be.present):
             self.press_button_continue()
         else:
             self.press_button_login_with_email()
-        if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
-            self.text_welcome_to_notion_click_to_hide_keyboard.click()
+
+    def press_continue(self):
+        if self.button_continue_with_email_lowercase.matching(be.present):
+            self.button_continue_with_email_lowercase.click()
+        elif self.button_continue_with_email.matching(be.present):
+            try:
+                self.button_continue_with_email.click()
+            except:
+                self.button_continue_with_email_lowercase.click()
+
+    def enter_password_or_code(self):
+        if self.text_temporary_code_sent.matching(be.present):
+            if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+                self.text_welcome_to_notion_click_to_hide_keyboard.click()
+        self.field_password_or_code.wait_until(be.present)
         if self.password.matching(be.present):
             self.enter_password(os.getenv('PASSWORD'))
             self.button_continue_with_password.click()
@@ -81,13 +109,5 @@ class MobileLoginPage:
     def wait_until_logged_in(self):
         self.login_loader.wait_until(be.absent)
 
-    def mobile_login(self, google):
-        if google:
-            self.login_with_google()
-        else:
-            self.login_with_email()
-        self.wait_until_logged_in()
-        self.allow_notifications()
-
     def allow_notifications(self):
-        browser.element((AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button')).click()
+        self.button_allow_permission.click()

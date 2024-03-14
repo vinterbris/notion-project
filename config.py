@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 from notion_tests.utils import file
 
-load_dotenv('.env')
+load_dotenv()
 
 
 class MailConfig(pydantic_settings.BaseSettings):
@@ -15,14 +15,9 @@ class MailConfig(pydantic_settings.BaseSettings):
 
 
 class WebConfig(pydantic_settings.BaseSettings):
+    load_dotenv()
     timeout: float = 50.0
 
-    notion_api_url: str = os.getenv('API_URL')
-    notion_api_key: str = os.getenv('API_KEY')
-    notion_id: str = os.getenv('NOTION_PAGE_ID')
-    notion_database_id: str = os.getenv('NOTION_DATABASE_ID')
-
-    # web
     base_url: str = os.getenv('URL')
     window_width: int = 1920
     window_height: int = 1080
@@ -47,11 +42,15 @@ class MobileConfig(pydantic_settings.BaseSettings):
     timeout: float = 15.0
     use_google_account_locally: bool = os.getenv('USE_GOOGLE')
 
-    application: str = os.getenv('APPB')
-    platform: str = os.getenv('PLATFORMNAMEB')
-    platform_ver: str = os.getenv('PLATFORMVERB')
-    rem_url: str = os.getenv('RURL')
-    dev_name: str = os.getenv('DEVICENAMEB')
+    application: str = os.getenv('APP_BSTACK')
+    platform: str = os.getenv('PLATFORM_NAME_BSTACK')
+    platform_ver: str = os.getenv('PLATFORM_VER_BSTACK')
+    rem_url: str = os.getenv('REMOTE_URL_BSTACK')
+    dev_name: str = os.getenv('DEVICE_NAME_BSTACK')
+
+    local_app: str = os.getenv('APP_LOCAL')
+    local_remote_url: str = os.getenv('REMOTE_URL_LOCAL')
+    local_platform_name: str = os.getenv('PLATFORM_NAME_LOCAL')
 
     def to_driver_options(self, context):
         from appium.options.android import UiAutomator2Options
@@ -73,9 +72,9 @@ class MobileConfig(pydantic_settings.BaseSettings):
                 },
             )
         elif context == 'local_mobile':
-            options.set_capability('platformName', os.getenv('PLATFORM_NAMELOCAL'))
-            options.set_capability('remote_url', os.getenv('REMOTEURLLOCAL'))
-            options.set_capability('app', file.abs_path_from_project(os.getenv('APPLOCAL')))
+            options.set_capability('platformName', self.local_platform_name)
+            options.set_capability('remote_url', self.local_remote_url)
+            options.set_capability('app', file.abs_path_from_project(self.local_app))
 
         return options
 

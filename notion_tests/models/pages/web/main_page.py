@@ -259,7 +259,6 @@ class MainPage:
         def choose_delete(self):
             self.menu_delete.click()
             self.sidebar.list_of_pages.wait_until(have.size(1))
-            time.sleep(2)
 
     class TemplatesWindow:
         def __init__(self):

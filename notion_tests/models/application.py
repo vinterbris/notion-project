@@ -19,23 +19,96 @@ class Application:
         self.mobile_login_page = MobileLoginPage()
         self.mobile_main_page = MobileMainPage()
 
-        self.mobile = self.Mobile()
+        # subclasses
+        self.web = self.Web(self)
+        self.mobile = self.Mobile(self)
 
-    def login(self):
-        app.starting_page.open_login_form()
-        app.login_page.enter_email()
-        app.login_page.enter_code_or_password()
+    class Web:
 
-    def login_if_not_logged_in(self):
-        if app.login_page.sidebar_switcher.matching(be.absent):
-            self.login()
+        def __init__(self, app):
+            self.app = app
+            self.should = self.Should(self)
 
-    def check_published_page_availability(self, url):
-        time.sleep(2)
-        response = requests.get(url)
-        assert response.status_code == 200
+        def login(self):
+            app.starting_page.open()
+            if app.login_page.sidebar_switcher.matching(be.absent):
+                app.starting_page.open_login_form()
+                app.login_page.enter_email()
+                app.login_page.enter_code_or_password()
+
+        def add_subpage(self, subpage_name):
+            app.main_page.sidebar.add_subpage()
+            app.main_page.enter_subpage_name(subpage_name)
+
+        def check_published_page_availability(self, url):
+            time.sleep(2)
+            response = requests.get(url)
+            assert response.status_code == 200
+
+        def publish_page(self):
+            app.main_page.share_menu.open_share_menu()
+            app.main_page.share_menu.open_publish_tab()
+            app.main_page.share_menu.publish_page()
+            return app.main_page.share_menu.get_link()
+
+        def create_teamspace(self, workspace_name):
+            app.main_page.sidebar.create_teamspace()
+            app.main_page.sidebar.name_teamspace(workspace_name)
+            app.main_page.sidebar.submit_teamspace()
+            app.main_page.sidebar.skip_people_invite()
+
+        def create_page_from_template(self):
+            app.main_page.sidebar.open_templates()
+            app.main_page.templates_window.choose_todo_list()
+            app.main_page.templates_window.get_template()
+
+        def add_page_to_favorites(self, page_name):
+            app.main_page.sidebar.add_page()
+            app.main_page.enter_page_name(page_name)
+            app.main_page.topbar.add_page_to_favorites()
+
+        class Should:
+
+            def __init__(self, web):
+                self.web = web
+
+            def have_main_app_ui_elements(self, and_name):
+                app.main_page.sidebar.should_have_sidebar_ui_elements(and_name)
+                app.main_page.topbar.should_have_topbar_ui_elements()
+
+            def have_page_fields_and_ui_elements(self):
+                app.main_page.should_have_title_field()
+                app.main_page.should_have_top_ui_elements()
+                app.main_page.should_have_bottom_ui_elements()
+
+            def have_subpage_fields_and_ui_elements(self, subpage_name):
+                app.main_page.sidebar.should_have_title(subpage_name)
+                app.main_page.should_have_title_field()
+                app.main_page.should_have_top_ui_elements()
+                app.main_page.should_have_additional_top_ui_elements()
+                app.main_page.should_have_bottom_ui_elements()
+
+            def be_available(self, published_url):
+                self.web.check_published_page_availability(published_url)
+
+            def have_teamspace_ui_elements(self, workspace_name):
+                app.main_page.sidebar.should_have_teamspace_ui_elemnts(workspace_name)
+
+            def have_table_ui_elements(self):
+                app.main_page.sidebar.should_have_title('Tasks')
+                app.main_page.table.should_have_table_view()
+                app.main_page.table.should_have_tabs('All tasks', 'Board')
+                app.main_page.table.should_have_buttons_new(3)
+                app.main_page.table.should_have_buttons()
+                app.main_page.table.should_have_ui_elements()
+
+            def be_in_favorites(self, page_name):
+                app.main_page.sidebar.favorites_should_have_page_with_name(page_name)
 
     class Mobile:
+
+        def __init__(self, app):
+            self.app = app
 
         def create_page_from_template(self, name):
             app.mobile_main_page.add_page()

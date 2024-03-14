@@ -72,8 +72,9 @@ class MobileLoginPage:
         elif self.button_continue_with_email.matching(be.present):
             try:
                 self.button_continue_with_email.click()
-            except:
-                self.button_continue_with_email_lowercase.click()
+            finally:
+                if self.button_continue_with_email_lowercase.matching(be.present):
+                    self.button_continue_with_email_lowercase.click()
 
     def enter_password_or_code(self):
         if self.text_temporary_code_sent.matching(be.present):

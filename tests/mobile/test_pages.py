@@ -16,8 +16,7 @@ def test_create_page(delete_created_page):
     with step('Добавить страницу'):
         app.mobile_main_page.add_page()
     with step('Выбрать шаблон'):
-        app.mobile_main_page.press_button_choose_template()
-        app.mobile_main_page.choose_template(template_name)
+        app.mobile.choose_template()
 
     # THEN
     with step('Шаблон должен быть добавлен'):
@@ -25,7 +24,8 @@ def test_create_page(delete_created_page):
 
 
 def test_search_page():
-    app.mobile_login_page.mobile_login(google)
+    with step('Логин'):
+        app.mobile_login_page.mobile_login(google)
 
     # WHEN
     with step('Найти страницу'):
@@ -38,14 +38,14 @@ def test_search_page():
 
 @pytest.mark.unstable
 def test_delete_page():
-    app.mobile_login_page.mobile_login(google)
+    with step('Логин'):
+        app.mobile_login_page.mobile_login(google)
     with step('Создать страницу'):
-        app.create_page_from_template(template_name)
+        app.mobile.create_page_from_template(template_name)
 
     # WHEN
     with step('Открыть домашний экран'):
-        app.mobile_main_page.open_home()
-        app.mobile_main_page.open_home()
+        app.mobile.open_home()
     with step('Выбрать страницу для удаления'):
         app.mobile_main_page.choose_page_for_deletion()
     with step('Удалить страницу'):

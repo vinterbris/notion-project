@@ -9,13 +9,13 @@ load_dotenv()
 
 
 class MailConfig(pydantic_settings.BaseSettings):
+    load_dotenv()
     mail_wait_timeout: int = 1200000
     mail_api_key: str = os.getenv('MAIL_SLURP_API_KEY')
     mail_inbox_id: str = os.getenv('MAIL_SLURP_INBOX_ID')
 
 
 class WebConfig(pydantic_settings.BaseSettings):
-    load_dotenv()
     timeout: float = 50.0
 
     base_url: str = os.getenv('URL')
@@ -27,7 +27,7 @@ class WebConfig(pydantic_settings.BaseSettings):
         options = Options()
         options.page_load_strategy = 'eager'
 
-        if context == 'selenoid':
+        if context == 'remote':
             selenoid_capabilities = {
                 "browserName": "chrome",
                 "browserVersion": "122.0",
@@ -56,7 +56,7 @@ class MobileConfig(pydantic_settings.BaseSettings):
         from appium.options.android import UiAutomator2Options
         options = UiAutomator2Options()
 
-        if context == 'bstack':
+        if context == 'remote':
             options.set_capability('remote_url', self.rem_url)
             options.set_capability('deviceName', self.dev_name)
             options.set_capability('platformName', self.platform)
@@ -71,7 +71,7 @@ class MobileConfig(pydantic_settings.BaseSettings):
                     'accessKey': os.getenv('BROWSERSTACK_ACCESSKEY'),
                 },
             )
-        elif context == 'local_mobile':
+        elif context == 'local':
             options.set_capability('platformName', self.local_platform_name)
             options.set_capability('remote_url', self.local_remote_url)
             options.set_capability('app', file.abs_path_from_project(self.local_app))

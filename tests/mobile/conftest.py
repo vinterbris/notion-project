@@ -14,8 +14,8 @@ from notion_tests.utils import attach
 def pytest_addoption(parser):
     parser.addoption(
         "--context",
-        default="local_mobile",
-        choices=['bstack', 'local_mobile'],
+        default="remote",
+        choices=['local', 'remote'],
     )
 
 
@@ -25,10 +25,10 @@ def mobile_management(request):
     load_dotenv()
     from config import mobile_config
 
-    if context == 'bstack':
+    if context == 'remote':
         remote_url = mobile_config.rem_url
     else:
-        remote_url = os.getenv('REMOTE_URL_LOCAL')
+        remote_url = mobile_config.local_remote_url
 
     options = mobile_config.to_driver_options(context)
     with allure.step('init app session'):
@@ -46,7 +46,7 @@ def mobile_management(request):
     attach.add_screenshot(browser)
     attach.add_xml(browser)
 
-    if context == 'bstack':
+    if context == 'remote':
         session_id = browser.driver.session_id
 
         with allure.step('tear down app session with id' + session_id):

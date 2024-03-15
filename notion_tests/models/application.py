@@ -8,7 +8,6 @@ from notion_tests.models.pages.mobile.main_page import MobileMainPage
 from notion_tests.models.pages.web.login_page import LoginPage
 from notion_tests.models.pages.web.main_page import MainPage
 from notion_tests.models.pages.web.starting_page import StartingPage
-from notion_tests.test_data.data import template_name
 
 
 class Application:
@@ -115,13 +114,18 @@ class Application:
             app.mobile_main_page.press_button_choose_template()
             app.mobile_main_page.choose_template(name)
 
-        def open_home():
-            app.mobile_main_page.open_home()
-            app.mobile_main_page.open_home()
-
-        def choose_template():
+        def choose_template(self, template_name):
             app.mobile_main_page.press_button_choose_template()
             app.mobile_main_page.choose_template(template_name)
+
+        def find_and_delete_page(self):
+            self.open_home()
+            app.mobile_main_page.choose_page_for_deletion()
+            app.mobile_main_page.delete_page_on_page_screen()
+
+        def open_home(self):
+            for _ in range(2):
+                app.mobile_main_page.open_home()
 
 
 app = Application()

@@ -1,11 +1,9 @@
-import pytest
 from allure_commons._allure import step
 
 from config import mobile_config
 from notion_tests.models.application import app
 
 
-@pytest.mark.unstable
 def test_login():
     google = mobile_config.use_google_account_locally
 

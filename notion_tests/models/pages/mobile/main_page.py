@@ -41,14 +41,19 @@ class MobileMainPage:
         self.button_add_page.click()
 
     def press_button_choose_template(self):
-        self.field_text.wait_until(be.clickable)
-        print('ждет поле')
-        self.field_text.click()
-        print('кликает на поле')
-        self.button_choose_template.wait_until(be.clickable)
-        print('ждет появления выбора темплейта')
-        self.button_choose_template.click()
-        print('кликает на выбор темплейта')
+        if self.button_choose_template.wait_until(be.present):
+            self.button_choose_template.click()
+        else:
+
+            self.field_text.wait_until(be.clickable)
+            self.field_text.click()
+            self.press_button_choose_template_if_awailable()
+
+    def press_button_choose_template_if_awailable(self):
+        time.sleep(5)  # не работает wait_until, даже с ними проскакивает слишком быстро, клик происходит
+        # куда-то в небытие тоже и тест падает на следующем шаге не открыв шаблоны
+        if self.button_choose_template.matching(be.visible):
+            self.button_choose_template.click()
 
     def choose_template(self, value):
         self.list_of_all_buttons_on_page.wait_until(be.visible)

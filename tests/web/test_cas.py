@@ -5,7 +5,6 @@ from notion_tests.models.application import app
 
 # Баг: иногда при запросе пароля выдает ошибку, что требуется одноразовый код с почты
 def test_login():
-
     # WHEN
     with step('Логин'):
         app.web.login()

@@ -25,7 +25,9 @@
 ---
 
 ### Реализованы тесты:
+
 #### Web
+
 - [x] Авторизация по временному коду или паролю
 - [x] Добавление страницы
 - [x] Добавление подстраницы
@@ -33,7 +35,9 @@
 - [x] Создание пространства команды
 - [x] Создание страницы из шаблона
 - [x] Добавление страницы в избранное
+
 #### Mobile
+
 - [x] Авторизация по временному коду
 - [x] Добавление страницы
 - [x] Поиск страницы
@@ -42,27 +46,33 @@
 ## Запуск тестов
 
 ### Удаленно
+
 > <a target="_blank" href="https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/">Ссылка на проект в Jenkins</a>
+
 #### Для запуска автотестов в Jenkins
 
-1. Выбрать пункт `Build now`  
-   * Запуск веб тестов на selenoid: `tests/web --context=selenoid`  
-   * Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`  
+1. Выбрать пункт `Build now`
+    * Запуск веб тестов на selenoid: `tests/web --context=selenoid`
+    * Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`
 2. Результат запуска сборки можно посмотреть в отчёте Allure
-
 
 ### Локально
 
-1. Клонировать репозиторий 
+1. Клонировать репозиторий
+
 ```bash
 git clone https://github.com/vinterbris/qa_guru_python_9_24.git
 ```
+
 2. В терминале pycharm создать и активировать виртуальное окружение
+
 ```bash
 python -m venv .venv 
 source .venv/bin/activate 
 ```
+
 3. Установить зависимости
+
 ```
 pip install -r requirements.txt 
 ```
@@ -82,10 +92,10 @@ pytest tests/mobile --context=local_mobile
 ```
 
 #### Получение отчета allure
+
 ```bazaar
 allure serve
 ```
-
 
 Для локального запуска мобильных тестов требуется запуск appium командой:
 
@@ -101,16 +111,18 @@ appium --base-path /wd/hub
 
 ## Оповещения в мессенджер
 
-> _Настроена отправка оповещений в телеграм канал. Возможна настройка для Email,Slack, Discord, Skype, Mattermost, Rocket.Chat_
+> _Настроена отправка оповещений в телеграм канал. Возможна настройка для Email,Slack, Discord, Skype, Mattermost,
+Rocket.Chat_
 _img incoming_
-
 
 ## Примеры запуска тестов
 
 ### Веб
+
 https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/3f1aed6b-81fc-4469-9c73-3bf83a0c5d88
 
 ### Мобильных
+
 https://github.com/vinterbris/qa_guru_python_9_24/assets/21102027/be7f4e28-4f6b-4023-afef-b68c09904981
 
 

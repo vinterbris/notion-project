@@ -13,8 +13,8 @@ from notion_tests.utils import attach
 def pytest_addoption(parser):
     parser.addoption(
         "--context",
-        default="local",
-        choices=["local", "selenoid"],
+        default="remote",
+        choices=["local", "remote"],
     )
 
 
@@ -31,7 +31,7 @@ def browser_management(request):
 
     options = web_config.to_driver_options(context)
 
-    if context == 'selenoid':
+    if context == 'remote':
         login = os.getenv("SELENOID_LOGIN")
         password = os.getenv("SELENOID_PASSWORD")
         driver = webdriver.Remote(

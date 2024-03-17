@@ -95,7 +95,7 @@ pytest tests/mobile --context=local
 allure serve
 ```
 
-Для локального запуска мобильных тестов требуется запуск appium командой:
+####Для локального запуска мобильных тестов требуется запуск appium командой:
 
 ```
 appium --base-path /wd/hub

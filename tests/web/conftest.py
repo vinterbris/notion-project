@@ -1,4 +1,5 @@
 import os
+import time
 
 import pytest
 from dotenv import load_dotenv
@@ -58,6 +59,7 @@ def delete_current_page():
     yield
     app.main_page.topbar.open_page_options_panel()
     app.main_page.page_options.choose_delete()
+    time.sleep(5)
 
 
 @pytest.fixture(scope='function')
@@ -65,19 +67,19 @@ def unfavorite_and_delete_current_page():
     yield
     app.main_page.topbar.open_page_options_panel()
     app.main_page.page_options.choose_delete()
-    try:
-        app.main_page.topbar.unfavorite_page()
-    except:
-        pass
+    app.main_page.topbar.unfavorite_page()
+    time.sleep(5)
 
 
 @pytest.fixture(scope='function')
 def unpublish_page():
     yield
     app.main_page.share_menu.unpublish_page()
+    time.sleep(5)
 
 
 @pytest.fixture(scope='function')
 def archive_teamspace():
     yield
     app.main_page.sidebar.archive_teamspace(workspace_name)
+    time.sleep(5)

@@ -1,5 +1,3 @@
-import time
-
 import allure
 import allure_commons
 import pytest

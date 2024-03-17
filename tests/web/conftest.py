@@ -14,7 +14,7 @@ from notion_tests.utils import attach
 def pytest_addoption(parser):
     parser.addoption(
         "--context",
-        default="local",
+        default="remote",
         choices=["local", "remote"],
     )
 
@@ -51,7 +51,7 @@ def browser_management(request):
     attach.add_html(browser)
     attach.add_video(browser, os.getenv('SELENOID_URL'))
 
-    time.sleep(5)
+    time.sleep(5)  # не удаляются страницы из-за быстрого закрытия браузера, поэтому добавил
     browser.quit()
 
 
@@ -62,7 +62,6 @@ def delete_current_page():
     app.main_page.page_options.choose_delete()
 
 
-
 @pytest.fixture(scope='function')
 def unfavorite_and_delete_current_page():
     yield
@@ -71,16 +70,13 @@ def unfavorite_and_delete_current_page():
     app.main_page.topbar.unfavorite_page()
 
 
-
 @pytest.fixture(scope='function')
 def unpublish_page():
     yield
     app.main_page.share_menu.unpublish_page()
 
 
-
 @pytest.fixture(scope='function')
 def archive_teamspace():
     yield
     app.main_page.sidebar.archive_teamspace(workspace_name)
-

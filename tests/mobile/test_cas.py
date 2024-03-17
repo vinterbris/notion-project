@@ -3,7 +3,9 @@ from allure_commons._allure import step
 from config import mobile_config
 from notion_tests.models.application import app
 
-
+@allure.label('mobile')
+@allure.epic('Логин')
+@allure.label("owner", "sdobrovolskiy")
 def test_login():
     google = mobile_config.use_google_account_locally
 

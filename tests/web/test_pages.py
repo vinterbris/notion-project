@@ -5,6 +5,11 @@ from notion_tests.test_data.data import workspace_name, subpage_name, page_name
 
 
 class TestPageFunctions:
+
+    @allure.label('web')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Создание страницы")
+    @allure.label("owner", "sdobrovolskiy")
     def test_create_page(delete_current_page):
         with step('Логин'):
             app.web.login()
@@ -17,6 +22,10 @@ class TestPageFunctions:
         with step('Должны быть поля и элементы интерфейса'):
             app.web.should.have_page_fields_and_ui_elements()
 
+    @allure.label('web')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Создание подстраницы")
+    @allure.label("owner", "sdobrovolskiy")
     def test_create_subpage(delete_current_page):
         with step('Логин'):
             app.web.login()
@@ -34,6 +43,10 @@ class TestPageFunctions:
         with step('Открыть страницу в полный экран'):
             app.main_page.open_in_full_page()
 
+    @allure.label('web')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Публикация страницы")
+    @allure.label("owner", "sdobrovolskiy")
     def test_publish_page(unpublish_page):
         with step('Логин'):
             app.web.login()
@@ -46,6 +59,10 @@ class TestPageFunctions:
         with step('Проверить доступность страницы'):
             app.web.should.be_available(published_url)
 
+    @allure.label('web')
+    @allure.epic('Teamspace')
+    @allure.feature("Создание teamspace")
+    @allure.label("owner", "sdobrovolskiy")
     def test_create_teamspace(delete_current_page, archive_teamspace):
         with step('Логин'):
             app.web.login()
@@ -58,6 +75,10 @@ class TestPageFunctions:
         with step('Должны быть элементы интерфейса'):
             app.web.should.have_teamspace_ui_elements(workspace_name)
 
+    @allure.label('web')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Создание страницы из шаблона")
+    @allure.label("owner", "sdobrovolskiy")
     def test_create_from_template(delete_current_page):
         with step('Логин'):
             app.web.login()
@@ -70,6 +91,10 @@ class TestPageFunctions:
         with step('Должно быть имя, таблица, вкладки, кнопки и элементы интерфейса'):
             app.web.should.have_table_ui_elements()
 
+    @allure.label('web')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Добавление страницы в избранное")
+    @allure.label("owner", "sdobrovolskiy")
     def test_add_page_to_favorites(unfavorite_and_delete_current_page):
         with step('Логин'):
             app.web.login()

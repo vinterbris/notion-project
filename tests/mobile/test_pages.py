@@ -6,7 +6,10 @@ from notion_tests.test_data.data import template_name, default_page
 
 google = mobile_config.use_google_account_locally
 
-
+@allure.label('mobile')
+@allure.epic('Работа со страницами')
+@allure.feature("Создание страницы")
+@allure.label("owner", "sdobrovolskiy")
 def test_create_page(delete_created_page):
     with step('Логин'):
         app.mobile_login_page.mobile_login(google)
@@ -19,7 +22,10 @@ def test_create_page(delete_created_page):
     with step('Шаблон должен быть добавлен'):
         app.mobile_main_page.should_have_reading_list()
 
-
+@allure.label('mobile')
+@allure.epic('Работа со страницами')
+@allure.feature("Поиск страницы")
+@allure.label("owner", "sdobrovolskiy")
 def test_search_page():
     with step('Логин'):
         app.mobile_login_page.mobile_login(google)
@@ -32,7 +38,10 @@ def test_search_page():
     with step('Страница должна отображаться в результате поиска'):
         app.mobile_main_page.should_have_page(default_page)
 
-
+@allure.label('mobile')
+@allure.epic('Работа со страницами')
+@allure.feature("Удаление страницы")
+@allure.label("owner", "sdobrovolskiy")
 def test_delete_page():
     with step('Логин'):
         app.mobile_login_page.mobile_login(google)

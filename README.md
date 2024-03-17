@@ -79,16 +79,14 @@ pip install -r requirements.txt
 
 #### Варианты запуска:
 
-* Веб на selenoid
-* Веб локально
-* Мобильные на browserstack
-* Мобильные на локальном эмуляторе или реальном телефоне
+* Web-тесты на selenoid или локально
+* Mobile-тесты на browserstack или локально
 
 ```bash
-pytest tests/web --context=selenoid
+pytest tests/web --context=remote
 pytest tests/web --context=local
-pytest tests/mobile --context=bstack
-pytest tests/mobile --context=local_mobile
+pytest tests/mobile --context=remote
+pytest tests/mobile --context=local
 ```
 
 #### Получение отчета allure
@@ -113,7 +111,8 @@ appium --base-path /wd/hub
 
 > _Настроена отправка оповещений в телеграм канал. Возможна настройка для Email,Slack, Discord, Skype, Mattermost,
 Rocket.Chat_
-_img incoming_
+
+<img src="resources/images/screenshot_telegram.png" width="" height="450">
 
 ## Примеры запуска тестов
 

@@ -55,7 +55,6 @@ def mobile_management(request):
         bstack = options.get_capability('bstack:options')
         attach.add_bstack_video(session_id, bstack['userName'], bstack['accessKey'])
 
-    time.sleep(5)
     browser.quit()
 
 

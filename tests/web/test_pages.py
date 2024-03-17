@@ -11,7 +11,7 @@ class TestPageFunctions:
     @allure.epic('Работа со страницами')
     @allure.feature("Создание страницы")
     @allure.label("owner", "sdobrovolskiy")
-    def test_create_page(delete_current_page):
+    def test_create_page(self, delete_current_page):
         with step('Логин'):
             app.web.login()
 
@@ -27,7 +27,7 @@ class TestPageFunctions:
     @allure.epic('Работа со страницами')
     @allure.feature("Создание подстраницы")
     @allure.label("owner", "sdobrovolskiy")
-    def test_create_subpage(delete_current_page):
+    def test_create_subpage(self, delete_current_page):
         with step('Логин'):
             app.web.login()
 
@@ -48,7 +48,7 @@ class TestPageFunctions:
     @allure.epic('Работа со страницами')
     @allure.feature("Публикация страницы")
     @allure.label("owner", "sdobrovolskiy")
-    def test_publish_page(unpublish_page):
+    def test_publish_page(self, unpublish_page):
         with step('Логин'):
             app.web.login()
 
@@ -64,7 +64,7 @@ class TestPageFunctions:
     @allure.epic('Teamspace')
     @allure.feature("Создание teamspace")
     @allure.label("owner", "sdobrovolskiy")
-    def test_create_teamspace(delete_current_page, archive_teamspace):
+    def test_create_teamspace(self, delete_current_page, archive_teamspace):
         with step('Логин'):
             app.web.login()
 
@@ -80,7 +80,7 @@ class TestPageFunctions:
     @allure.epic('Работа со страницами')
     @allure.feature("Создание страницы из шаблона")
     @allure.label("owner", "sdobrovolskiy")
-    def test_create_from_template(delete_current_page):
+    def test_create_from_template(self, delete_current_page):
         with step('Логин'):
             app.web.login()
 
@@ -96,7 +96,7 @@ class TestPageFunctions:
     @allure.epic('Работа со страницами')
     @allure.feature("Добавление страницы в избранное")
     @allure.label("owner", "sdobrovolskiy")
-    def test_add_page_to_favorites(unfavorite_and_delete_current_page):
+    def test_add_page_to_favorites(self, unfavorite_and_delete_current_page):
         with step('Логин'):
             app.web.login()
 

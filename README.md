@@ -101,6 +101,8 @@ allure serve
 appium --base-path /wd/hub
 ```
 
+#### Логин по одноразовым кодам
+
 Для совершения логина используется сервис временной почты mailslurp:
 В `.env` указываются id почтового ящика и api ключ:`MAIL_SLURP_API_KEY`,`MAIL_SLURP_INBOX_ID`
 

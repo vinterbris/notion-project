@@ -1,3 +1,4 @@
+import allure
 from allure_commons._allure import step
 
 from notion_tests.models.application import app

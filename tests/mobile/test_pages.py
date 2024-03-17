@@ -1,3 +1,4 @@
+import allure
 from allure_commons._allure import step
 
 from config import mobile_config
@@ -5,6 +6,7 @@ from notion_tests.models.application import app
 from notion_tests.test_data.data import template_name, default_page
 
 google = mobile_config.use_google_account_locally
+
 
 @allure.label('mobile')
 @allure.epic('Работа со страницами')
@@ -22,6 +24,7 @@ def test_create_page(delete_created_page):
     with step('Шаблон должен быть добавлен'):
         app.mobile_main_page.should_have_reading_list()
 
+
 @allure.label('mobile')
 @allure.epic('Работа со страницами')
 @allure.feature("Поиск страницы")
@@ -37,6 +40,7 @@ def test_search_page():
     # THEN
     with step('Страница должна отображаться в результате поиска'):
         app.mobile_main_page.should_have_page(default_page)
+
 
 @allure.label('mobile')
 @allure.epic('Работа со страницами')

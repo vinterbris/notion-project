@@ -1,7 +1,9 @@
+import allure
 from allure_commons._allure import step
 
 from config import mobile_config
 from notion_tests.models.application import app
+
 
 @allure.label('mobile')
 @allure.epic('Логин')

@@ -10,9 +10,7 @@ from notion_tests.models.application import app
 @allure.label("owner", "sdobrovolskiy")
 def test_login():
     # WHEN
-    with step('Логин'):
-        app.web.login()
+    app.web.login()
 
     # THEN
-    with step('Должны присутствовать UI элементы страницы'):
-        app.web.should.have_main_app_ui_elements(and_name="Sergey's Notion")
+    app.web.should.have_main_app_ui_elements(and_name="Sergey's Notion")

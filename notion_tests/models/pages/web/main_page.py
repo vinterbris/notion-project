@@ -34,7 +34,8 @@ class MainPage:
         self.subpage_name.click().type(name)
 
     def open_in_full_page(self):
-        self.button_open_as_full_page.click()
+        with step('Открыть страницу в полный экран'):
+            self.button_open_as_full_page.click()
 
     def should_have_title_field(self):
         self.page_name.should(be.present)
@@ -162,7 +163,8 @@ class MainPage:
             self.button_templates.click()
 
         def add_page(self):
-            self.button_add_page.click()
+            with step('Добавить страницу'):
+                self.button_add_page.click()
 
         def add_subpage(self):
             self.page.hover()

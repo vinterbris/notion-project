@@ -1,5 +1,4 @@
 import allure
-from allure_commons._allure import step
 
 from config import mobile_config
 from notion_tests.models.application import app
@@ -8,54 +7,45 @@ from notion_tests.test_data.data import template_name, default_page
 google = mobile_config.use_google_account_locally
 
 
-@allure.label('mobile')
 @allure.epic('Работа со страницами')
-@allure.feature("Создание страницы")
-@allure.label("owner", "sdobrovolskiy")
-def test_create_page(delete_created_page):
-    with step('Логин'):
-        app.mobile_login_page.mobile_login(google)
+class TestPageFunctions:
 
-    # WHEN
-    with step('Создать страницу из шаблона'):
+    @allure.label('mobile')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Создание страницы")
+    @allure.label("owner", "sdobrovolskiy")
+    def test_create_page(self, delete_created_page):
+        app.mobile.login(google)
+
+        # WHEN
         app.mobile.create_page_from_template(template_name)
 
-    # THEN
-    with step('Шаблон должен быть добавлен'):
-        app.mobile_main_page.should_have_reading_list()
+        # THEN
+        app.mobile.should.have_reading_list()
 
+    @allure.label('mobile')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Поиск страницы")
+    @allure.label("owner", "sdobrovolskiy")
+    def test_search_page(self):
+        app.mobile.login(google)
 
-@allure.label('mobile')
-@allure.epic('Работа со страницами')
-@allure.feature("Поиск страницы")
-@allure.label("owner", "sdobrovolskiy")
-def test_search_page():
-    with step('Логин'):
-        app.mobile_login_page.mobile_login(google)
+        # WHEN
+        app.mobile.search(default_page)
 
-    # WHEN
-    with step('Найти страницу'):
-        app.mobile_main_page.search(default_page)
+        # THEN
+        app.mobile.should.have_page(default_page)
 
-    # THEN
-    with step('Страница должна отображаться в результате поиска'):
-        app.mobile_main_page.should_have_page(default_page)
-
-
-@allure.label('mobile')
-@allure.epic('Работа со страницами')
-@allure.feature("Удаление страницы")
-@allure.label("owner", "sdobrovolskiy")
-def test_delete_page():
-    with step('Логин'):
-        app.mobile_login_page.mobile_login(google)
-    with step('Создать страницу'):
+    @allure.label('mobile')
+    @allure.epic('Работа со страницами')
+    @allure.feature("Удаление страницы")
+    @allure.label("owner", "sdobrovolskiy")
+    def test_delete_page(self):
+        app.mobile.login(google)
         app.mobile.create_page_from_template(template_name)
 
-    # WHEN
-    with step('На домашнем экране найти и удалить страницу'):
+        # WHEN
         app.mobile.find_and_delete_page()
 
-    # THEN
-    with step('Страница должна быть удалена'):
-        app.mobile_main_page.page_should_be_deleted(template_name)
+        # THEN
+        app.mobile.should.have_no_page(template_name)

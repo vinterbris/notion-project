@@ -1,7 +1,8 @@
 import time
 
 import requests
-from selene import be
+from allure_commons._allure import step
+from selene import be, have
 
 from notion_tests.models.pages.mobile.login_page import MobileLoginPage
 from notion_tests.models.pages.mobile.main_page import MobileMainPage
@@ -108,11 +109,24 @@ class Application:
 
         def __init__(self, app):
             self.app = app
+            self.should = self.Should(self)
+
+        def login(self, google):
+            if google:
+                with step('Логин через google'):
+                    app.mobile_login_page.login_with_google()
+            else:
+                with step('Логин через почту'):
+                    app.mobile_login_page.login_with_email()
+            app.mobile_login_page.wait_until_logged_in()
+            with step('Разрешить уведомления'):
+                app.mobile_login_page.allow_notifications()
 
         def create_page_from_template(self, name):
-            app.mobile_main_page.add_page()
-            app.mobile_main_page.press_button_choose_template()
-            app.mobile_main_page.choose_template(name)
+            with step('Создать страницу из шаблона'):
+                app.mobile_main_page.add_page()
+                app.mobile_main_page.press_button_choose_template()
+                app.mobile_main_page.choose_template(name)
 
         def choose_template(self, template_name):
             app.mobile_main_page.press_button_choose_template()
@@ -120,12 +134,45 @@ class Application:
 
         def find_and_delete_page(self):
             self.open_home()
-            app.mobile_main_page.choose_page_for_deletion()
-            app.mobile_main_page.delete_page_on_page_screen()
+            with step('На домашнем экране найти и удалить страницу'):
+                app.mobile_main_page.choose_page_for_deletion()
+                app.mobile_main_page.delete_page_on_page_screen()
 
         def open_home(self):
-            for _ in range(2):
-                app.mobile_main_page.open_home()
+            with step('Открыть домашнюю страницу'):
+                for _ in range(2):
+                    app.mobile_main_page.open_home()
+
+        def search(self, page):
+            with step('Найти страницу'):
+                app.mobile_main_page.button_search.click()
+                app.mobile_main_page.field_text.send_keys(page)
+
+        class Should:
+
+            def __init__(self, mobile):
+                self.mobile = mobile
+
+            def have_ui_elements(self):
+                with step('Должны присутствовать UI элементы страницы'):
+                    app.mobile_main_page.button_open_home.should(be.present)
+                    app.mobile_main_page.button_search.should(be.present)
+                    app.mobile_main_page.button_updates.should(be.present)
+                    app.mobile_main_page.button_add_page.should(be.present)
+
+            def have_reading_list(self):
+                with step('Шаблон должен быть добавлен'):
+                    app.mobile_main_page.reading_list.wait_until(be.visible)
+                    app.mobile_main_page.reading_list.should(be.present)
+
+            def have_page(self, name):
+                with step('Страница должна отображаться в результате поиска'):
+                    app.mobile_main_page.list_of_all_textviews.element_by(have.text(name)).should(be.present)
+                    app.mobile_main_page.list_of_all_textviews.element_by(have.text(name)).click()
+
+            def have_no_page(self, name):
+                with step('Страница должна быть удалена'):
+                    app.mobile_main_page.list_of_all_textviews.element_by(have.text(name)).should(be.absent)
 
 
 app = Application()

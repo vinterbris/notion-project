@@ -38,14 +38,6 @@ class MobileLoginPage:
             have.text('Your login code was incorrect. Please try again.'))
         self.button_continue = browser.element((AppiumBy.XPATH, '//android.widget.Button[@text="Continue"]'))
 
-    def mobile_login(self, google):
-        if google:
-            self.login_with_google()
-        else:
-            self.login_with_email()
-        self.wait_until_logged_in()
-        self.allow_notifications()
-
     def login_with_google(self):
         self.buton_continue_with_google.click()
         self.google_account_display_name.click()
@@ -81,7 +73,8 @@ class MobileLoginPage:
     def enter_password_or_code(self):
         try:
             self.text_welcome_to_notion_click_to_hide_keyboard.wait_until(be.present)
-            self.text_welcome_to_notion_click_to_hide_keyboard.click()
+            if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+                self.text_welcome_to_notion_click_to_hide_keyboard.click()
         finally:
             if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
                 self.text_welcome_to_notion_click_to_hide_keyboard.click()

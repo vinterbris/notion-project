@@ -1,30 +1,19 @@
-import os
 import time
 
 import pytest
-from dotenv import load_dotenv
 from selene import browser
 from selenium import webdriver
 
 from config import notion_config
+from config import web_config
 from notion_tests.models.application import app
 from notion_tests.test_data.data import workspace_name
 from notion_tests.utils import attach
 
 
-# def pytest_addoption(parser):
-#     parser.addoption(
-#         "--context",
-#         default="remote",
-#         choices=["local", "remote"],
-#     )
-
-
 @pytest.fixture(scope="function", autouse=True)
 def browser_management(request):
     context = notion_config.context
-    # load_dotenv()
-    from config import web_config
 
     browser.config.base_url = web_config.base_url
     browser.config.timeout = web_config.timeout

@@ -5,39 +5,28 @@ from appium import webdriver
 from dotenv import load_dotenv
 from selene import browser, support
 
+from config import notion_config
 from notion_tests.models.application import app
 from notion_tests.utils import attach
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--context",
-        default="remote",
-        choices=['local', 'remote'],
-    )
-
-
 @pytest.fixture(scope='function', autouse=True)
 def mobile_management(request):
-    context = request.config.getoption("--context")
-    load_dotenv()
+    context = notion_config.context
     from config import mobile_config
 
     if context == 'remote':
-        remote_url = mobile_config.rem_url
+        remote_url = mobile_config.remote_url_bstack
     else:
         remote_url = mobile_config.local_remote_url
 
     options = mobile_config.to_driver_options(context)
     with allure.step('init app session'):
-        browser.config.driver = webdriver.Remote(
-            remote_url,
-            options=options
+        browser.config.driver = webdriver.Remote(remote_url, options=options)
+        browser.config.timeout = mobile_config.timeout
+        browser.config._wait_decorator = support._logging.wait_with(
+            context=allure_commons._allure.StepContext
         )
-    browser.config.timeout = mobile_config.timeout
-    browser.config._wait_decorator = support._logging.wait_with(
-        context=allure_commons._allure.StepContext
-    )
 
     yield
 

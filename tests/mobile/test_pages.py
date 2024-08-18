@@ -4,7 +4,7 @@ from config import mobile_config
 from notion_tests.models.application import app
 from notion_tests.test_data.data import template_name, default_page
 
-google = mobile_config.use_google_account_locally
+GOOGLE = mobile_config.use_google_account_locally
 
 
 @allure.epic('Работа со страницами')
@@ -15,7 +15,7 @@ class TestPageFunctions:
     @allure.feature("Создание страницы")
     @allure.label("owner", "sdobrovolskiy")
     def test_create_page(self, delete_created_page):
-        app.mobile.login(google)
+        app.mobile.login(GOOGLE)
 
         # WHEN
         app.mobile.create_page_from_template(template_name)
@@ -28,7 +28,7 @@ class TestPageFunctions:
     @allure.feature("Поиск страницы")
     @allure.label("owner", "sdobrovolskiy")
     def test_search_page(self):
-        app.mobile.login(google)
+        app.mobile.login(GOOGLE)
 
         # WHEN
         app.mobile.search(default_page)
@@ -41,7 +41,7 @@ class TestPageFunctions:
     @allure.feature("Удаление страницы")
     @allure.label("owner", "sdobrovolskiy")
     def test_delete_page(self):
-        app.mobile.login(google)
+        app.mobile.login(GOOGLE)
         app.mobile.create_page_from_template(template_name)
 
         # WHEN

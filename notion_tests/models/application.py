@@ -90,7 +90,9 @@ class Application:
                     app.main_page.should_have_bottom_ui_elements()
 
             def have_subpage_fields_and_ui_elements(self, subpage_name):
-                with step('У подстраницы должно быть имя, заголовок, и элементы интерфейса'):
+                with step(
+                    'У подстраницы должно быть имя, заголовок, и элементы интерфейса'
+                ):
                     app.main_page.sidebar.should_have_title(subpage_name)
                     app.main_page.should_have_title_field()
                     app.main_page.should_have_top_ui_elements()
@@ -103,10 +105,14 @@ class Application:
 
             def have_teamspace_ui_elements(self, workspace_name):
                 with step('Должны быть элементы интерфейса'):
-                    app.main_page.sidebar.should_have_teamspace_ui_elemnts(workspace_name)
+                    app.main_page.sidebar.should_have_teamspace_ui_elemnts(
+                        workspace_name
+                    )
 
             def have_table_ui_elements(self):
-                with step('Должно быть имя, таблица, вкладки, кнопки и элементы интерфейса'):
+                with step(
+                    'Должно быть имя, таблица, вкладки, кнопки и элементы интерфейса'
+                ):
                     app.main_page.sidebar.should_have_title('Tasks')
                     app.main_page.table.should_have_table_view()
                     app.main_page.table.should_have_tabs('All tasks', 'Board')
@@ -116,7 +122,9 @@ class Application:
 
             def be_in_favorites(self, page_name):
                 with step('Проверить, что страница есть в любимых'):
-                    app.main_page.sidebar.favorites_should_have_page_with_name(page_name)
+                    app.main_page.sidebar.favorites_should_have_page_with_name(
+                        page_name
+                    )
 
     class Mobile:
 
@@ -180,12 +188,18 @@ class Application:
 
             def have_page(self, name):
                 with step('Страница должна отображаться в результате поиска'):
-                    app.mobile_main_page.list_of_all_textviews.element_by(have.text(name)).should(be.present)
-                    app.mobile_main_page.list_of_all_textviews.element_by(have.text(name)).click()
+                    app.mobile_main_page.list_of_all_textviews.element_by(
+                        have.text(name)
+                    ).should(be.present)
+                    app.mobile_main_page.list_of_all_textviews.element_by(
+                        have.text(name)
+                    ).click()
 
             def have_no_page(self, name):
                 with step('Страница должна быть удалена'):
-                    app.mobile_main_page.list_of_all_textviews.element_by(have.text(name)).should(be.absent)
+                    app.mobile_main_page.list_of_all_textviews.element_by(
+                        have.text(name)
+                    ).should(be.absent)
 
 
 app = Application()

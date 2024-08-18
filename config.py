@@ -1,5 +1,6 @@
 import os
 
+import dotenv
 import pydantic_settings
 from dotenv import load_dotenv
 
@@ -9,14 +10,18 @@ load_dotenv()
 
 
 class MailConfig(pydantic_settings.BaseSettings):
-    load_dotenv()
+    '''
+    Uses https://www.mailslurp.com/ to generate email and recive login code
+    Requires registration, api key and inbox id
+    '''
+
+    mail_slurp_api_key: str = None
+    mail_slurp_inbox_id: str = None
     mail_wait_timeout: int = 1200000
-    mail_api_key: str = os.getenv('MAIL_SLURP_API_KEY')
-    mail_inbox_id: str = os.getenv('MAIL_SLURP_INBOX_ID')
 
 
 class WebConfig(pydantic_settings.BaseSettings):
-    timeout: float = 50.0
+    timeout: float = 40.0
 
     base_url: str = os.getenv('URL')
     window_width: int = 1920
@@ -24,6 +29,7 @@ class WebConfig(pydantic_settings.BaseSettings):
 
     def to_driver_options(self, context):
         from selenium.webdriver.chrome.options import Options
+
         options = Options()
         options.page_load_strategy = 'eager'
 
@@ -54,6 +60,7 @@ class MobileConfig(pydantic_settings.BaseSettings):
 
     def to_driver_options(self, context):
         from appium.options.android import UiAutomator2Options
+
         options = UiAutomator2Options()
 
         if context == 'remote':
@@ -63,7 +70,8 @@ class MobileConfig(pydantic_settings.BaseSettings):
             options.set_capability('platformVersion', self.platform_ver)
             options.set_capability('app', self.application)
             options.set_capability(
-                'bstack:options', {
+                'bstack:options',
+                {
                     'projectName': 'First Python project',
                     'buildName': 'browserstack-build-1',
                     'sessionName': 'BStack first_test',
@@ -79,6 +87,6 @@ class MobileConfig(pydantic_settings.BaseSettings):
         return options
 
 
+mail_config = MailConfig(_env_file=dotenv.find_dotenv('.env.mail'))
 web_config = WebConfig()
 mobile_config = MobileConfig()
-mail_config = MailConfig()

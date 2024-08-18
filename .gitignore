@@ -161,3 +161,8 @@ cython_debug/
 **/allure-results/
 tests/api
 **/api
+
+#.env
+.env.mail
+.env.web
+.env.mobile

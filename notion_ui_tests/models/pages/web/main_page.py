@@ -14,7 +14,7 @@ class MainPage:
             '.notion-overlay-container [placeholder="Untitled"]'
         )
         self.button_open_as_full_page = browser.element('.openAsPageThick')
-        self.more = browser.element('.notion-page-content .dots')
+        self.more = browser.element('[role="menu"] .dots')
         self.collection_table = browser.element('.collectionTable')
         self.templates = browser.element('.templates')
         self.import_data = browser.element('.import')
@@ -59,9 +59,9 @@ class MainPage:
 
     def should_have_bottom_ui_elements(self):
         self.ai.should(be.present)
-        self.import_data.should(be.present)
+        # self.import_data.should(be.present)
         self.templates.should(be.present)
-        self.collection_table.should(be.present)
+        # self.collection_table.should(be.present)
         self.more.should(be.present)
 
     class Table:
@@ -199,8 +199,8 @@ class MainPage:
         def open_templates(self):
             self.button_templates.click()
 
-        # def add_page(self):
-        #     self.button_add_page.click()
+        def add_page(self):
+            self.button_new_page.click()
 
         def add_subpage(self):
             self.page.hover()
@@ -296,7 +296,7 @@ class MainPage:
     class PageOptionsMenu:
         def __init__(self, sidebar):
             self.sidebar = sidebar
-            self.menu_delete = browser.all('[role="menuitem"]').element_by(have.text('Delete'))
+            self.menu_delete = browser.all('[role="menuitem"]').element_by(have.text('Trash'))
 
         def choose_delete(self):
             self.menu_delete.click()

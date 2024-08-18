@@ -4,7 +4,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selene import browser, have, be
 
 from config import notion_config
-from notion_tests.utils.verification import get_code_from_email
+from notion_ui_tests.utils.verification import get_code_from_email
 
 
 class MobileLoginPage:

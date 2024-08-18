@@ -1,6 +1,6 @@
 import allure
 
-from notion_tests.models.application import app
+from notion_ui_tests.models.application import app
 
 
 # Баг: иногда при запросе пароля выдает ошибку, что требуется одноразовый код с почты

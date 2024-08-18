@@ -3,7 +3,7 @@ import os
 from selene import browser, be, have
 
 from config import notion_config
-from notion_tests.utils.verification import get_code_from_email
+from notion_ui_tests.utils.verification import get_code_from_email
 
 
 class LoginPage:

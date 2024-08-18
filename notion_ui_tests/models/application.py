@@ -4,11 +4,11 @@ import requests
 from allure_commons._allure import step
 from selene import be, have
 
-from notion_tests.models.pages.mobile.login_page import MobileLoginPage
-from notion_tests.models.pages.mobile.main_page import MobileMainPage
-from notion_tests.models.pages.web.login_page import LoginPage
-from notion_tests.models.pages.web.main_page import MainPage
-from notion_tests.models.pages.web.starting_page import StartingPage
+from notion_ui_tests.models.pages.mobile.login_page import MobileLoginPage
+from notion_ui_tests.models.pages.mobile.main_page import MobileMainPage
+from notion_ui_tests.models.pages.web.login_page import LoginPage
+from notion_ui_tests.models.pages.web.main_page import MainPage
+from notion_ui_tests.models.pages.web.starting_page import StartingPage
 
 
 class Application:

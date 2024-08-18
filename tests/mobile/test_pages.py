@@ -1,8 +1,8 @@
 import allure
 
 from config import mobile_config
-from notion_tests.models.application import app
-from notion_tests.test_data.data import template_name, default_page
+from notion_ui_tests.models.application import app
+from notion_ui_tests.test_data.data import template_name, default_page
 
 GOOGLE = mobile_config.use_google_account_locally
 

@@ -1,7 +1,7 @@
 import allure
 
-from notion_tests.models.application import app
-from notion_tests.test_data.data import workspace_name, subpage_name, page_name
+from notion_ui_tests.models.application import app
+from notion_ui_tests.test_data.data import workspace_name, subpage_name, page_name
 
 
 @allure.epic('Работа со страницами')

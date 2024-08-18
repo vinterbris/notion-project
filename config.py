@@ -1,7 +1,7 @@
 import dotenv
 import pydantic_settings
 
-from notion_tests.utils import file
+from notion_ui_tests.utils import file
 
 
 class NotionConfig(pydantic_settings.BaseSettings):

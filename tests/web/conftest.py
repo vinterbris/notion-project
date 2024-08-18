@@ -6,9 +6,9 @@ from selenium import webdriver
 
 from config import notion_config
 from config import web_config
-from notion_tests.models.application import app
-from notion_tests.test_data.data import workspace_name
-from notion_tests.utils import attach
+from notion_ui_tests.models.application import app
+from notion_ui_tests.test_data.data import workspace_name
+from notion_ui_tests.utils import attach
 
 
 @pytest.fixture(scope="function", autouse=True)

@@ -1,7 +1,7 @@
 import allure
 
 from config import mobile_config
-from notion_tests.models.application import app
+from notion_ui_tests.models.application import app
 
 
 @allure.label('mobile')

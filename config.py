@@ -2,11 +2,18 @@ import os
 
 import dotenv
 import pydantic_settings
-from dotenv import load_dotenv
 
 from notion_tests.utils import file
 
-load_dotenv()
+
+class NotionConfig(pydantic_settings.BaseSettings):
+    context: str = 'local'
+    login: str = None
+    password: str = None
+    api_url: str = 'https://api.notion.co'
+    api_key: str = None
+    notion_page_id: str = None
+    notion_database_id: str = None
 
 
 class MailConfig(pydantic_settings.BaseSettings):
@@ -21,11 +28,13 @@ class MailConfig(pydantic_settings.BaseSettings):
 
 
 class WebConfig(pydantic_settings.BaseSettings):
-    timeout: float = 40.0
-
-    base_url: str = os.getenv('URL')
+    base_url: str = 'https://www.notion.so'
+    timeout: float = 20.0
     window_width: int = 1920
     window_height: int = 1080
+    selenoid_url: str = 'selenoid.autotests.cloud'
+    selenoid_login: str = None
+    selenoid_password: str = None
 
     def to_driver_options(self, context):
         from selenium.webdriver.chrome.options import Options
@@ -87,6 +96,7 @@ class MobileConfig(pydantic_settings.BaseSettings):
         return options
 
 
+notion_config = NotionConfig(_env_file=dotenv.find_dotenv('.env'))
 mail_config = MailConfig(_env_file=dotenv.find_dotenv('.env.mail'))
-web_config = WebConfig()
-mobile_config = MobileConfig()
+web_config = WebConfig(_env_file=dotenv.find_dotenv('.env.web'))
+# mobile_config = MobileConfig(_env_file=dotenv.find_dotenv('.env.mobile'))

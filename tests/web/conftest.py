@@ -6,23 +6,24 @@ from dotenv import load_dotenv
 from selene import browser
 from selenium import webdriver
 
+from config import notion_config
 from notion_tests.models.application import app
 from notion_tests.test_data.data import workspace_name
 from notion_tests.utils import attach
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--context",
-        default="remote",
-        choices=["local", "remote"],
-    )
+# def pytest_addoption(parser):
+#     parser.addoption(
+#         "--context",
+#         default="remote",
+#         choices=["local", "remote"],
+#     )
 
 
 @pytest.fixture(scope="function", autouse=True)
 def browser_management(request):
-    context = request.config.getoption("--context")
-    load_dotenv()
+    context = notion_config.context
+    # load_dotenv()
     from config import web_config
 
     browser.config.base_url = web_config.base_url
@@ -33,8 +34,8 @@ def browser_management(request):
     options = web_config.to_driver_options(context)
 
     if context == 'remote':
-        login = os.getenv("SELENOID_LOGIN")
-        password = os.getenv("SELENOID_PASSWORD")
+        login = web_config.selenoid_login
+        password = web_config.selenoid_password
         driver = webdriver.Remote(
             command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
             options=options,
@@ -49,7 +50,7 @@ def browser_management(request):
     attach.add_screenshot(browser)
     attach.add_logs(browser)
     attach.add_html(browser)
-    attach.add_video(browser, os.getenv('SELENOID_URL'))
+    attach.add_video(browser, web_config.selenoid_url)
 
     time.sleep(5)  # не удаляются страницы из-за быстрого закрытия браузера, поэтому добавил
     browser.quit()

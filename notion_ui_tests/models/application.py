@@ -109,9 +109,9 @@ class Application:
 
             def have_table_ui_elements(self):
                 with step('Должно быть имя, таблица, вкладки, кнопки и элементы интерфейса'):
-                    app.main_page.sidebar.should_have_title('Tasks')
+                    app.main_page.sidebar.should_have_title('To-dos')
                     app.main_page.table.should_have_table_view()
-                    app.main_page.table.should_have_tabs('All tasks', 'Board')
+                    app.main_page.table.should_have_tabs('Tasks', 'Board')
                     app.main_page.table.should_have_buttons_new(3)
                     app.main_page.table.should_have_buttons()
                     app.main_page.table.should_have_ui_elements()

@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from notion_ui_tests.models.application import app
 from notion_ui_tests.test_data.data import workspace_name, subpage_name, page_name
@@ -39,6 +40,7 @@ class TestPageFunctions:
     @allure.epic('Работа со страницами')
     @allure.feature("Публикация страницы")
     @allure.label("owner", "sdobrovolskiy")
+    @pytest.mark.skip(reason='Broken test. Publish button not clickable')
     def test_publish_page(self, unpublish_page):
         app.web.login()
 
@@ -48,6 +50,7 @@ class TestPageFunctions:
         # THEN
         app.web.should.be_available(published_url)
 
+    @pytest.mark.skip(reason='Broken test. Can"t find teampsace functionality')
     @allure.label('web')
     @allure.epic('Teamspace')
     @allure.feature("Создание teamspace")

@@ -1,5 +1,5 @@
 import pyperclip
-from selene import browser, have, be
+from selene import browser, have, be, by, command
 
 
 class MainPage:
@@ -73,8 +73,6 @@ class MainPage:
             self.edit_layout = browser.element('.notion-collection-edit-view')
             self.search = browser.element('.collectionSearch')
             self.automations = browser.element('.notion-collection-automation-edit-view')
-            self.button_sort = browser.all('[role="button"]').element_by(have.text('Sort'))
-            self.button_filter = browser.all('[role="button"]').element_by(have.text('Filter'))
             self.buttons_all_new = browser.all('.plus')
             self.tabs = browser.all('.notion-collection-view-tab-button')
             self.table_view = browser.element('.notion-table-view')
@@ -89,8 +87,8 @@ class MainPage:
             self.buttons_all_new.should(have.size(value))
 
         def should_have_buttons(self):
-            self.button_filter.should(be.present)
-            self.button_sort.should(be.present)
+            browser.all('[role="button"] [aria-label="Filter"]').should(be.present)
+            browser.all('[role="button"] [aria-label="Sort"]').should(be.present)
 
         def should_have_ui_elements(self):
             self.automations.should(be.present)
@@ -189,7 +187,7 @@ class MainPage:
             self.page = browser.element('.notion-outliner-private .notion-page-block')
             self.bookmarks = browser.element('.notion-outliner-bookmarks')
             self.collection_of_pages = browser.all('.notranslate')
-            self.button_templates = browser.element('.sidebarTemplates')
+            self.button_templates = browser.all('[role="button"]').element_by(have.text('Templates'))
             # self.button_add_page = browser.all('[role="button"]').element_by(
             #     have.text('Add a page')
             # )
@@ -267,7 +265,7 @@ class MainPage:
         def __init__(self):
             self.view_site_button = browser.element('.globe2')
             self.link = browser.element('.link')
-            self.button_publish = browser.element('.notion-share-menu-publish-button')
+            self.button_publish = browser.all('[role="button"]').element_by(have.exact_text('Publish'))
             self.share_menu_publish_tab = browser.element('.notion-share-menu-publish-tab')
             self.button_share_menu = browser.element('.notion-topbar-share-menu')
             self.button_unpublish = browser.all('[role="button"]').element_by(
@@ -281,7 +279,7 @@ class MainPage:
             self.share_menu_publish_tab.click()
 
         def publish_page(self):
-            self.button_publish.click()
+            self.button_publish.with_(click_by_js=True).click() # broken
 
         def get_link(self):
             self.link.click()
@@ -305,12 +303,13 @@ class MainPage:
     class TemplatesWindow:
         def __init__(self):
             self.button_get_template = browser.all('[role="button"]').element_by(
-                have.text('Get template')
+                have.text('Add to my workspace')
             )
-            self.todo_list = browser.element('#tg-simple_tasks')
 
         def choose_todo_list(self):
-            self.todo_list.click()
+            browser.element('.pottedPlant').click()
+            browser.element('[href="https://www.notion.so/gallery/templates/to-do-list?cr=cat%3Apersonal"]').perform(command.js.scroll_into_view).click()
 
         def get_template(self):
             self.button_get_template.click()
+            browser.all('[role="menuitem"]').element_by(have.text('Add to Private')).click()

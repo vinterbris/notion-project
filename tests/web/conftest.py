@@ -55,9 +55,9 @@ def delete_current_page():
 @pytest.fixture(scope='function')
 def unfavorite_and_delete_current_page():
     yield
+    app.main_page.topbar.unfavorite_page()
     app.main_page.topbar.open_page_options_panel()
     app.main_page.page_options.choose_delete()
-    app.main_page.topbar.unfavorite_page()
 
 
 @pytest.fixture(scope='function')

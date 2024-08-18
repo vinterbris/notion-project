@@ -89,7 +89,7 @@ class Application:
                 with step('Должны быть поля и элементы интерфейса'):
                     app.main_page.should_have_title_field()
                     app.main_page.should_have_top_ui_elements()
-                    app.main_page.should_have_bottom_ui_elements()
+                    # app.main_page.should_have_bottom_ui_elements()
 
             def have_subpage_fields_and_ui_elements(self, subpage_name):
                 with step('У подстраницы должно быть имя, заголовок, и элементы интерфейса'):

@@ -1,6 +1,6 @@
 import allure
 
-from config import mobile_config
+from project import mobile_config
 from notion_ui_tests.models.application import app
 
 

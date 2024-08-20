@@ -5,7 +5,7 @@ from appium import webdriver
 from dotenv import load_dotenv
 from selene import browser, support
 
-from config import notion_config
+from project import notion_config
 from notion_ui_tests.models.application import app
 from notion_ui_tests.utils import attach
 
@@ -13,7 +13,7 @@ from notion_ui_tests.utils import attach
 @pytest.fixture(scope='function', autouse=True)
 def mobile_management(request):
     context = notion_config.context
-    from config import mobile_config
+    from project import mobile_config
 
     if context == 'remote':
         remote_url = mobile_config.remote_url_bstack

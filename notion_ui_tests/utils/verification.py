@@ -3,7 +3,7 @@ import time
 
 import mailslurp_client
 
-from config import mail_config
+from project import mail_config
 
 configuration = mailslurp_client.Configuration()
 configuration.api_key['x-api-key'] = mail_config.mail_slurp_api_key

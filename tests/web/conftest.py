@@ -4,8 +4,8 @@ import pytest
 from selene import browser
 from selenium import webdriver
 
-from config import notion_config
-from config import web_config
+from project import notion_config
+from project import web_config
 from notion_ui_tests.models.application import app
 from notion_ui_tests.test_data.data import workspace_name
 from notion_ui_tests.utils import attach

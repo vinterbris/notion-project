@@ -2,7 +2,7 @@ import os
 
 from selene import browser, be, have
 
-from config import notion_config
+from project import notion_config
 from notion_ui_tests.utils.verification import get_code_from_email
 
 

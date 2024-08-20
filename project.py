@@ -102,3 +102,15 @@ notion_config = NotionConfig(_env_file=dotenv.find_dotenv('.env'))
 mail_config = MailConfig(_env_file=dotenv.find_dotenv('.env.mail'))
 web_config = WebConfig(_env_file=dotenv.find_dotenv('.env.web'))
 mobile_config = MobileConfig(_env_file=dotenv.find_dotenv('.env.mobile'))
+
+if __name__ == '__main__':
+    """
+    Run config.py to check config values on start. Used for debugging
+    """
+    new_line = '\n\n'
+    print(
+        notion_config.__repr__(), new_line,
+        mail_config.__repr__(), new_line,
+        web_config.__repr__(), new_line,
+        mobile_config.__repr__(), new_line,
+    )

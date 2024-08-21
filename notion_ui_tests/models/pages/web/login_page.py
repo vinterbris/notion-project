@@ -23,10 +23,10 @@ class LoginPage:
         self.password.wait_until(be.visible)
 
     def enter_code_or_password(self):
-        if self.button_continue_with_code.matching(be.present):
+        if self.button_continue_with_code.wait_until(be.present):
             code = get_code_from_email()
             self.password.type(code).press_enter()
-            if self.incorrect_code.matching(be.present):
+            if self.incorrect_code.wait_until(be.present):
                 code = get_code_from_email()
                 self.password.clear().type(code).press_enter()
         else:

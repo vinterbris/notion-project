@@ -78,7 +78,7 @@ class MobileLoginPage:
         try:
             self.button_continue.wait_until(be.present)
         finally:
-            if self.button_continue.matching(be.present):
+            if self.button_continue.wait_until(be.present):
                 self.press_button_continue()
             else:
                 self.press_button_login_with_email()
@@ -87,31 +87,31 @@ class MobileLoginPage:
         try:
             self.button_continue_with_email_lowercase.wait_until(be.present)
         finally:
-            if self.button_continue_with_email_lowercase.matching(be.present):
+            if self.button_continue_with_email_lowercase.wait_until(be.present):
                 self.button_continue_with_email_lowercase.click()
-            elif self.button_continue_with_email.matching(be.present):
+            elif self.button_continue_with_email.wait_until(be.present):
                 self.button_continue_with_email.click()
 
     def enter_password_or_code(self):
         try:
             self.text_welcome_to_notion_click_to_hide_keyboard.wait_until(be.present)
-            if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+            if self.text_welcome_to_notion_click_to_hide_keyboard.wait_until(be.present):
                 self.text_welcome_to_notion_click_to_hide_keyboard.click()
         finally:
-            if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+            if self.text_welcome_to_notion_click_to_hide_keyboard.wait_until(be.present):
                 self.text_welcome_to_notion_click_to_hide_keyboard.click()
-            elif self.text_temporary_code_sent.matching(be.present):
-                if self.text_welcome_to_notion_click_to_hide_keyboard.matching(be.present):
+            elif self.text_temporary_code_sent.wait_until(be.present):
+                if self.text_welcome_to_notion_click_to_hide_keyboard.wait_until(be.present):
                     self.text_welcome_to_notion_click_to_hide_keyboard.click()
         self.field_password_or_code.wait_until(be.present)
-        if self.password.matching(be.present):
+        if self.password.wait_until(be.present):
             self.enter_password(notion_config.password)
             self.button_continue_with_password.click()
         else:
             code = get_code_from_email()
             self.enter_password(code)
             self.press_button_continue_with_code()
-            if self.incorrect_code.matching(be.present):
+            if self.incorrect_code.wait_until(be.present):
                 code = get_code_from_email()
                 self.reenter_code(code)
 

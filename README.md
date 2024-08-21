@@ -45,16 +45,9 @@
 
 ## Запуск тестов
 
-### Удаленно
 
-> <a target="_blank" href="https://jenkins.autotests.cloud/job/C09-vbr_s-diploma/">Ссылка на проект в Jenkins</a>
 
-#### Для запуска автотестов в Jenkins
-
-1. Выбрать пункт `Build now`
-    * Запуск веб тестов на selenoid: `tests/web --context=selenoid`
-    * Запуск мобильных тестов в browserstack: `tests/mobile --context=bstack`
-2. Результат запуска сборки можно посмотреть в отчёте Allure
+> <a target="_blank" href="http://176.123.163.26:8888/job/notion-project/">Ссылка на проект в мой Jenkins: доступны прогоны и allure отчёты</a>
 
 ### Локально
 
@@ -77,23 +70,36 @@ source .venv/bin/activate
 pip install -r requirements.txt 
 ```
 
+4. Создать `.env` файлы на основе папки `.env.examples`:
+* .env
+* .env.mail
+* .env.mobile
+* .env.web
+
 #### Варианты запуска:
 
-* Web-тесты на selenoid или локально
-* Mobile-тесты на browserstack или локально
+* На selenoid или локально
+* Все тесты
+* Web-тесты
+* Mobile-тесты
 
 ```bash
-pytest tests/web --context=remote
-pytest tests/web --context=local
-pytest tests/mobile --context=remote
-pytest tests/mobile --context=local
+pytest
+pytest tests/web
+pytest tests/mobile
 ```
 
 #### Получение отчета allure
 
-```bazaar
+```bash
 allure serve
 ```
+
+### Установка и настройка appium для локального запуска
+
+<a target="_blank" href="https://autotest.how/appium-setup-for-local-android-tutorial-md">Инструкция по настройке системы и устройств для локального запуска мобильных тестов на платформе Android</a>
+
+
 
 #### Для локального запуска мобильных тестов требуется запуск appium командой:
 
@@ -108,6 +114,13 @@ appium --base-path /wd/hub
 
 На локальном мобильном устройстве можно использовать гугл учетную запись. Для этого нужно переключить в .env
 `USE_GOOGLE = True`
+
+### Удаленно
+
+#### Для запуска автотестов на selenoid и browserstack
+
+1. В `.env` указываем `CONTEXT=remote`
+2. Запускаем как указано выше
 
 ## Оповещения в мессенджер
 

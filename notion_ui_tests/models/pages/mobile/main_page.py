@@ -44,8 +44,7 @@ class MobileMainPage:
             self.press_button_choose_template_if_awailable()
 
     def press_button_choose_template_if_awailable(self):
-        time.sleep(5)
-        if self.button_choose_template.matching(be.visible):
+        if self.button_choose_template.wait_until(be.visible):
             self.button_choose_template.click()
 
     def choose_template(self, value):

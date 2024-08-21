@@ -32,7 +32,7 @@ class MainPage:
         self.table = self.Table()
 
     def close_modal_window(self):
-        if self.close_modal.matching(be.present):
+        if self.close_modal.wait_until(be.present):
             self.close_modal.click()
 
     def enter_page_name(self, name):

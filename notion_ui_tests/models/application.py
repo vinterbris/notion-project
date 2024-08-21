@@ -32,7 +32,7 @@ class Application:
         def login(self):
             with step('Логин'):
                 app.starting_page.open()
-                if app.login_page.sidebar_switcher.matching(be.absent):
+                if app.login_page.sidebar_switcher.wait_until(be.absent):
                     app.starting_page.open_login_form()
                     app.login_page.enter_email()
                     app.login_page.enter_code_or_password()

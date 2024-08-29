@@ -1,8 +1,8 @@
 <h1 align="center">Проект web и mobile автотестов</h1>
 <p align="center">
-<a href="https://notion.so">
-  <img src="resources/images/notion.png" width="" height="110">
-</a>
+    <a href="https://notion.so">
+      <img src="resources/images/notion.png" width="" height="110">
+    </a>
 </p>
 
 
@@ -70,7 +70,7 @@ source .venv/bin/activate
 pip install -r requirements.txt 
 ```
 
-4. Создать `.env` файлы на основе папки `.env.examples`:
+4. Создать и заполнить `.env` файлы на основе папки `.env.examples`:
 * .env
 * .env.mail
 * .env.mobile

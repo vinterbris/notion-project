@@ -75,6 +75,14 @@ pip install -r requirements.txt
 * .env.mobile
 * .env.web
 
+#### Логин по одноразовым кодам
+
+Для совершения логина используется сервис временной почты mailslurp:
+В `.env` указываются id почтового ящика и api ключ:`MAIL_SLURP_API_KEY`,`MAIL_SLURP_INBOX_ID`
+
+На локальном мобильном устройстве можно использовать гугл учетную запись. Для этого нужно переключить в .env
+`USE_GOOGLE = True`
+
 #### Варианты запуска:
 
 * На selenoid или локально
@@ -106,13 +114,7 @@ allure serve
 appium --base-path /wd/hub
 ```
 
-#### Логин по одноразовым кодам
 
-Для совершения логина используется сервис временной почты mailslurp:
-В `.env` указываются id почтового ящика и api ключ:`MAIL_SLURP_API_KEY`,`MAIL_SLURP_INBOX_ID`
-
-На локальном мобильном устройстве можно использовать гугл учетную запись. Для этого нужно переключить в .env
-`USE_GOOGLE = True`
 
 ### Удаленно
 
@@ -121,7 +123,11 @@ appium --base-path /wd/hub
 1. В `.env` указываем `CONTEXT=remote`
 2. Запускаем как указано выше
 
+## Пример отчёта
 
+![allure](resources/images/screenshot_allure.png)
+
+![allure](resources/images/screenshot_allure_steps.png)
 
 ## Оповещения в мессенджер
 
